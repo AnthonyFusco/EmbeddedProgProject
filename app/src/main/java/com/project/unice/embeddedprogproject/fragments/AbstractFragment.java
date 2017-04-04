@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject;
+package com.project.unice.embeddedprogproject.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

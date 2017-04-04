@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject;
+package com.project.unice.embeddedprogproject.fragments;
 
 import android.content.Context;
 import android.support.v4.view.ViewPager;
@@ -6,9 +6,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 
-public class ViewPagerBloquant extends ViewPager {
+public class ViewPagerBlocker extends ViewPager {
 
-    public ViewPagerBloquant(Context context, AttributeSet attrs) {
+    public ViewPagerBlocker(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 

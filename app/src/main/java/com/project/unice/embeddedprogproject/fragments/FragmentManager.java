@@ -1,16 +1,15 @@
-package com.project.unice.embeddedprogproject;
+package com.project.unice.embeddedprogproject.fragments;
 
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class FragmentManagerPage extends FragmentStatePagerAdapter {
+public class FragmentManager extends FragmentStatePagerAdapter {
 
     private List<AbstractFragment> list;
-    public FragmentManagerPage(FragmentManager fm) {
+    public FragmentManager(android.support.v4.app.FragmentManager fm) {
         super(fm);
         list = new ArrayList<>();
     }

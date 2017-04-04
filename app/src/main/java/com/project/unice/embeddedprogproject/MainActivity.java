@@ -8,12 +8,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import com.project.unice.embeddedprogproject.pages.ListContactsPage;
-import com.project.unice.embeddedprogproject.pages.ListDemandesPage;
+import com.project.unice.embeddedprogproject.fragments.FragmentManager;
+import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
+import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FragmentManagerPage fragmentManager;
+    private FragmentManager fragmentManager;
     private ViewPager viewPager;
 
     @Override
@@ -21,13 +22,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        fragmentManager = new FragmentManagerPage(getSupportFragmentManager());
+        fragmentManager = new FragmentManager(getSupportFragmentManager());
 
         viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(fragmentManager);
 
-        fragmentManager.addFragment(new ListDemandesPage());
-        fragmentManager.addFragment(new ListContactsPage());
+        fragmentManager.addFragment(new ListRequests());
+        fragmentManager.addFragment(new ListContacts());
         fragmentManager.notifyDataSetChanged();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
