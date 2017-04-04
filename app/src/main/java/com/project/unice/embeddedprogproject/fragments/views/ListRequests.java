@@ -1,14 +1,14 @@
-package com.project.unice.embeddedprogproject.pages;
+package com.project.unice.embeddedprogproject.fragments.views;
 
 import android.os.Bundle;
 import android.view.ViewGroup;
 
-import com.project.unice.embeddedprogproject.AbstractFragment;
 import com.project.unice.embeddedprogproject.R;
+import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 
-public class ListDemandesPage extends AbstractFragment {
+public class ListRequests extends AbstractFragment {
 
-    public ListDemandesPage() {
+    public ListRequests() {
         super("DEMANDES", R.layout.page_list_demandes);
     }
 
