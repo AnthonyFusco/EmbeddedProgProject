@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
+
 import java.util.List;
 
 public class LayoutListAdapter<T> extends BaseAdapter {
@@ -45,7 +47,20 @@ public class LayoutListAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        View view = null;
+        /*if (view == null) {
+            //holder = new ListContactView.ViewHolder();
+            view = inflater.inflate(layout, null);
+            rowListView.initHolder(this, view);
+
+            holder.nom = (TextView) view.findViewById(R.id.textnamecontact);
+            view.setTag(holder);
+        } else {
+            holder = (ListContactView.ViewHolder) view.getTag();
+        }
+        holder.ref = position;
+        holder.nom.setText(listElements.get(position).name);*/
+        return view;
         //return rowListView.getView(position, layout, inflater, listElements);
-        return null;
     }
 }
