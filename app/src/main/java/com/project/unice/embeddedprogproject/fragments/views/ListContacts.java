@@ -27,6 +27,7 @@ public class ListContacts extends AbstractFragment {
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.container2);
         viewPager.setAdapter(fragmentManager);
 
+        fragmentManager.addFragment(new TestContacts("TEST"));
         fragmentManager.addFragment(new ViewContacts(TOUS_TITLE));
         fragmentManager.addFragment(new ViewContacts(AVEC_TITLE));
         fragmentManager.addFragment(new ViewContacts(SANS_TITLE));
