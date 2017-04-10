@@ -18,11 +18,10 @@ public class ListContacts extends AbstractFragment {
     public static final String TOUS_TITLE = "TOUS";
     public static final String AVEC_TITLE = "AVEC";
     public static final String SANS_TITLE = "SANS";
-    private final ContactManager contactManager;
+    private ContactManager contactManager;
 
     public ListContacts() {
         super("CONTACTS", R.layout.page_list_contacts);
-        contactManager = new ContactManager(getActivity());
     }
 
     @Override
@@ -32,6 +31,7 @@ public class ListContacts extends AbstractFragment {
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.container2);
         viewPager.setAdapter(fragmentManager);
 
+        contactManager = new ContactManager(getActivity());
         List<Contact> contacts = contactsFactory("");
 
         fragmentManager.addFragment(new ViewContacts(TOUS_TITLE, contacts));
