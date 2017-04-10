@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">EmbeddedProgProject</string>
+    <string name="BUSINESS_CARD">Business Card</string>
 </resources>
