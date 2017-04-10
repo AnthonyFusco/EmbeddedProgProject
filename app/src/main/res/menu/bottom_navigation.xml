@@ -6,7 +6,7 @@
         android:enabled="true"
         android:icon="@mipmap/ic_launcher"
         app:showAsAction="ifRoom"
-        android:title="" />
+        android:title="test" />
     <item
         android:id="@+id/action_schedules"
         android:enabled="true"
