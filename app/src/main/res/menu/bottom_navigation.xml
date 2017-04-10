@@ -18,7 +18,6 @@
         android:id="@+id/action_myprofile"
         android:enabled="true"
         android:icon="@mipmap/ic_launcher"
-        android:title=""
         app:showAsAction="ifRoom" />
 
 </menu>

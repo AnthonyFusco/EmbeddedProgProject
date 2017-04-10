@@ -16,6 +16,7 @@ import com.project.unice.embeddedprogproject.fragments.views.MyProfile;
 public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
+    private SmsBroadcastReceiver smsBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +25,18 @@ public class MainActivity extends AppCompatActivity {
 
         initFragment();
 
-        SmsBroadcastReceiver smsBroadcastReceiver = new SmsBroadcastReceiver(getApplicationContext());
+        smsBroadcastReceiver = new SmsBroadcastReceiver(getApplicationContext());
         smsBroadcastReceiver.enableBroadcastReceiver();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitle(R.string.BUSINESS_CARD);
         setSupportActionBar(myToolbar);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        smsBroadcastReceiver.disableBroadcastReceiver();
     }
 
     private void initFragment() {
@@ -71,5 +78,4 @@ public class MainActivity extends AppCompatActivity {
     private void change(int n){
         viewPager.setCurrentItem(n, false);
     }
-
 }
