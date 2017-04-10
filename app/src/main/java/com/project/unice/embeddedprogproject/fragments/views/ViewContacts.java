@@ -1,11 +1,19 @@
 package com.project.unice.embeddedprogproject.fragments.views;
 
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.content.ContentResolver;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.telephony.SmsManager;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -40,9 +48,31 @@ public class ViewContacts extends AbstractFragment {
         adapter.setLayout(R.layout.contact_list_row);
         listView.setAdapter(adapter);
 
-       /* listView.setAdapter(new ArrayAdapter<>(this.getActivity(),
-                android.R.layout.simple_list_item_1,
-                getContacts(getTitle())));*/
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Contact contact = (Contact) parent.getItemAtPosition(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+                builder.setMessage("Send Message ?")
+                        .setTitle("");
+
+                builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        SmsManager smsManager = SmsManager.getDefault();
+                        smsManager.sendTextMessage(contact.phone, null, "sms message", null, null);
+                    }
+                });
+                builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User cancelled the dialog
+                    }
+                });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
     }
 
 
@@ -70,7 +100,7 @@ public class ViewContacts extends AbstractFragment {
                             new String[]{id}, null);
                     if (pCur != null) {
                         while (pCur.moveToNext()) {
-                            String phoneNo = pCur.getString(pCur.getColumnIndex(
+                            c.phone = pCur.getString(pCur.getColumnIndex(
                                     ContactsContract.CommonDataKinds.Phone.NUMBER));
                         }
                         pCur.close();
