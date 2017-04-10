@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.project.unice.embeddedprogproject.OnClickContactFactory;
 import com.project.unice.embeddedprogproject.ViewHolder;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.LayoutListAdapter;
@@ -53,26 +54,7 @@ public class ViewContacts extends AbstractFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                final Contact contact = (Contact) parent.getItemAtPosition(position);
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-                builder.setMessage("Send Message ?")
-                        .setTitle("");
-
-                builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(contact.phone, null, "catch", null, null);
-                    }
-                });
-                builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        // User cancelled the dialog
-                    }
-                });
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+                OnClickContactFactory.getInstance().getOnClickContactListener(getActivity()).onItemClick(parent, view, position, id);
             }
         });
     }
