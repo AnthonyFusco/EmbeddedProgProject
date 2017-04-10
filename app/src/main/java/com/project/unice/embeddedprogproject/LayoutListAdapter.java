@@ -61,7 +61,7 @@ public class LayoutListAdapter<T> extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         holder.ref = position;
-        holder.nom.setText((Contact)listElements.get(position));
+        holder.nom.setText(((Contact)listElements.get(position)).name);
         return view;
     }
 
