@@ -14,11 +14,4 @@
         android:title=""
         app:showAsAction="ifRoom" />
 
-    <item
-        android:id="@+id/action_sms"
-        android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
-        android:title=""
-        app:showAsAction="ifRoom" />
-
 </menu>
