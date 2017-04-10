@@ -8,10 +8,8 @@ import android.provider.ContactsContract;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
-import com.project.unice.embeddedprogproject.LayoutListAdapter;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.pages.Contact;
 
@@ -49,7 +47,7 @@ public class ViewContacts extends AbstractFragment {
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null);
         List<String> l = new ArrayList<>();
-        if (cur.getCount() > 0) {
+        if (cur != null && cur.getCount() > 0) {
             while (cur.moveToNext()) {
                 String id = cur.getString(
                         cur.getColumnIndex(ContactsContract.Contacts._ID));
@@ -65,13 +63,16 @@ public class ViewContacts extends AbstractFragment {
                             null,
                             ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
                             new String[]{id}, null);
-                    while (pCur.moveToNext()) {
-                        String phoneNo = pCur.getString(pCur.getColumnIndex(
-                                ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    if (pCur != null) {
+                        while (pCur.moveToNext()) {
+                            String phoneNo = pCur.getString(pCur.getColumnIndex(
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
+                        }
+                        pCur.close();
                     }
-                    pCur.close();
                 }
             }
+            cur.close();
         }
         return l;
     }

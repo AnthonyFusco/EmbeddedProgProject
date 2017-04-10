@@ -11,8 +11,6 @@ import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 
 
 public class ListContacts extends AbstractFragment {
-    private FragmentManager fragmentManager;
-    private ViewPager viewPager;
 
     public ListContacts() {
         super("CONTACTS", R.layout.page_list_contacts);
@@ -20,11 +18,12 @@ public class ListContacts extends AbstractFragment {
 
     @Override
     protected void onCreateFragment(ViewGroup rootView, Bundle savedInstanceState) {
-        fragmentManager = new FragmentManager(getActivity().getSupportFragmentManager());
+        FragmentManager fragmentManager = new FragmentManager(getActivity().getSupportFragmentManager());
 
-        viewPager = (ViewPager) rootView.findViewById(R.id.container2);
+        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.container2);
         viewPager.setAdapter(fragmentManager);
 
+        fragmentManager.addFragment(new TestContacts("TEST"));
         fragmentManager.addFragment(new ViewContacts("TOUS"));
         fragmentManager.addFragment(new ViewContacts("AVEC"));
         fragmentManager.addFragment(new ViewContacts("SANS"));
