@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
+import com.project.unice.embeddedprogproject.fragments.views.SmsPage;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager.addFragment(new ListRequests());
         fragmentManager.addFragment(new ListContacts());
+        fragmentManager.addFragment(new SmsPage());
         fragmentManager.notifyDataSetChanged();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -53,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.action_schedules :
                 change(1);
+                return true;
+            case R.id.action_sms :
+                change(2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
