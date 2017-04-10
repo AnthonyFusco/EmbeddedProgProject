@@ -62,7 +62,7 @@ public class ViewContacts extends AbstractFragment {
                 builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         SmsManager smsManager = SmsManager.getDefault();
-                        smsManager.sendTextMessage(contact.phone, null, "sms message", null, null);
+                        smsManager.sendTextMessage(contact.phone, null, "catch", null, null);
                     }
                 });
                 builder.setNegativeButton("no", new DialogInterface.OnClickListener() {

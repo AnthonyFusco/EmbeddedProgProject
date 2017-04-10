@@ -58,8 +58,6 @@ public class ListContacts extends AbstractFragment {
                 String name = cur.getString(cur.getColumnIndex(
                         ContactsContract.Contacts.DISPLAY_NAME));
                 Contact c = new Contact();
-                c.name = name;
-                l.add(c);
                 if (cur.getInt(cur.getColumnIndex(
                         ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
                     Cursor pCur = cr.query(
@@ -69,8 +67,10 @@ public class ListContacts extends AbstractFragment {
                             new String[]{id}, null);
                     if (pCur != null) {
                         while (pCur.moveToNext()) {
+                            c.name = name;
                             c.phone = pCur.getString(pCur.getColumnIndex(
                                     ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            l.add(c);
                         }
                         pCur.close();
                     }

@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
-        getSupportActionBar().setTitle("");
+        //getSupportActionBar().setTitle("");
         enableBroadcastReceiver();
     }
 

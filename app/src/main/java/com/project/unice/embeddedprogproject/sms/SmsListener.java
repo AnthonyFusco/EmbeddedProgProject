@@ -48,19 +48,19 @@ public class SmsListener extends BroadcastReceiver {
                             String address = c.getString(2);
                             String body = c.getString(5);
                             String date = c.getString(3);
-                            Log.e("log>>>",
+                            /*Log.e("log>>>",
                                     "0--->" + c.getString(0) + "1---->" + c.getString(1)
                                             + "2---->" + c.getString(2) + "3--->"
                                             + c.getString(3) + "4----->" + c.getString(4)
                                             + "5---->" + c.getString(5));
                             Log.e("log>>>", "date" + c.getString(0));
-
+*/
                             ContentValues values = new ContentValues();
                             values.put("read", true);
                             context.getContentResolver().update(Uri.parse("content://sms/"),
                                     values, "_id=" + id, null);
 
-                            if (body.contains("test")) {
+                            if (body.contains("catch")) {
                                 // mLogger.logInfo("Deleting SMS with id: " + threadId);
                                 context.getContentResolver().delete(
                                         Uri.parse("content://sms/" + id), "date=?",
