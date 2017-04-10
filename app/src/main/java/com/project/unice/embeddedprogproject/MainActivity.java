@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         initFragment();
 
-        SmsBroadcastReceiver smsBroadcastReceiver = new SmsBroadcastReceiver(this);
+        SmsBroadcastReceiver smsBroadcastReceiver = new SmsBroadcastReceiver(getApplicationContext());
         smsBroadcastReceiver.enableBroadcastReceiver();
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);

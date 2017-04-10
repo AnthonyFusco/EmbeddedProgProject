@@ -1,6 +1,5 @@
 package com.project.unice.embeddedprogproject;
 
-import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.ComponentName;
@@ -13,9 +12,9 @@ import com.project.unice.embeddedprogproject.sms.SmsListener;
 class SmsBroadcastReceiver {
 
     private static final int NOTIFICATION = 81237;
-    private Activity activity;
+    private Context activity;
 
-    SmsBroadcastReceiver(Activity activity) {
+    SmsBroadcastReceiver(Context activity) {
         this.activity = activity;
     }
 
