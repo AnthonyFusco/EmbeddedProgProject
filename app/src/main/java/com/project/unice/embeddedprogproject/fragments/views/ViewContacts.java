@@ -32,9 +32,11 @@ import java.util.List;
 public class ViewContacts extends AbstractFragment {
 
 
+    private final List<Contact> contacts;
 
-    public ViewContacts(String title) {
+    public ViewContacts(String title, List<Contact> contacts) {
         super(title, R.layout.fragment_listcontacts);
+        this.contacts = contacts;
     }
 
     @Override
@@ -42,9 +44,9 @@ public class ViewContacts extends AbstractFragment {
         ListView listView = (ListView)rootView.findViewById(R.id.listView_contacts);
 
         LayoutListAdapter<Contact> adapter = new LayoutListAdapter<>();
-        adapter.setViewHolder(new ViewHolderContacts(getContacts(getTitle())));
+        adapter.setViewHolder(new ViewHolderContacts(contacts));
         adapter.setInflater(getLayoutInflater(savedInstanceState));
-        adapter.setListElements(getContacts(getTitle()));
+        adapter.setListElements(contacts);
         adapter.setLayout(R.layout.contact_list_row);
         listView.setAdapter(adapter);
 
@@ -73,42 +75,5 @@ public class ViewContacts extends AbstractFragment {
                 dialog.show();
             }
         });
-    }
-
-
-    private List<Contact> getContacts(String title){
-        //TODO en fonction de title pour filter les contacts
-        ContentResolver cr = getActivity().getContentResolver();
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null);
-        List<Contact> l = new ArrayList<>();
-        if (cur != null && cur.getCount() > 0) {
-            while (cur.moveToNext()) {
-                String id = cur.getString(
-                        cur.getColumnIndex(ContactsContract.Contacts._ID));
-                String name = cur.getString(cur.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-                Contact c = new Contact();
-                c.name = name;
-                l.add(c);
-                if (cur.getInt(cur.getColumnIndex(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Cursor pCur = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
-                    if (pCur != null) {
-                        while (pCur.moveToNext()) {
-                            c.phone = pCur.getString(pCur.getColumnIndex(
-                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
-                        }
-                        pCur.close();
-                    }
-                }
-            }
-            cur.close();
-        }
-        return l;
     }
 }
