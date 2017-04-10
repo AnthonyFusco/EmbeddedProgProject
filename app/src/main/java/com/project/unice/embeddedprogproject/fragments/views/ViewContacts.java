@@ -10,10 +10,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
+import com.project.unice.embeddedprogproject.ViewHolder;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.LayoutListAdapter;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.pages.Contact;
+import com.project.unice.embeddedprogproject.pages.ViewHolderContacts;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +34,10 @@ public class ViewContacts extends AbstractFragment {
         ListView listView = (ListView)rootView.findViewById(R.id.listView_contacts);
 
         LayoutListAdapter<Contact> adapter = new LayoutListAdapter<>();
+        adapter.setViewHolder(new ViewHolderContacts(getContacts(getTitle())));
         adapter.setInflater(getLayoutInflater(savedInstanceState));
         adapter.setListElements(getContacts(getTitle()));
         adapter.setLayout(R.layout.contact_list_row);
-
         listView.setAdapter(adapter);
 
        /* listView.setAdapter(new ArrayAdapter<>(this.getActivity(),

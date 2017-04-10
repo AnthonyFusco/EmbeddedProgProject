@@ -16,6 +16,7 @@ public class LayoutListAdapter<T> extends BaseAdapter {
     private List<T> listElements;
     private LayoutInflater inflater;
     private int layout;
+    private ViewHolder holder;
 
     public void setLayout(int layout) {
         this.layout = layout;
@@ -49,26 +50,18 @@ public class LayoutListAdapter<T> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        View view = null;
-        ViewHolder holder;
-        if (view == null) {
-            holder = new ViewHolder();
-            view = inflater.inflate(layout, null);
-
-            holder.nom = (TextView) view.findViewById(R.id.textnamecontact);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
-        holder.ref = position;
-        holder.nom.setText(((Contact)listElements.get(position)).name);
+        View view;
+        view = inflater.inflate(layout, null);
+        holder.configure(view);
+        //holder.nom = (TextView) view.findViewById(R.id.textnamecontact);
+        view.setTag(holder);
+        holder.initialize(position);
+        //holder.ref = position;
+        //holder.nom.setText(((Contact)listElements.get(position)).name);
         return view;
     }
 
-
-
-    class ViewHolder {
-        int ref;
-        TextView nom;
+    public void setViewHolder(ViewHolder viewHolder) {
+        this.holder = viewHolder;
     }
 }
