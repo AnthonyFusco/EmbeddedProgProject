@@ -1,5 +1,7 @@
 package com.project.unice.embeddedprogproject.models;
 
+import com.project.unice.embeddedprogproject.sqlite.IModel;
+
 import java.util.List;
 
 
@@ -12,5 +14,5 @@ public interface IContactManager {
      * @see Contact
      * @return the list of Contact Objects
      */
-    List<Contact> getContacts();
+    List<IModel> getContacts();
 }

@@ -37,12 +37,12 @@ public class ViewContacts extends AbstractFragment {
 
         initListView(savedInstanceState, listView);
 
-        //listener on the list items. Use a factory class to decide which on click used according to the database
-        // //The OnClick can be send a card request, visualize an existing one, ...
+        // listener on the list items. Use a factory class to decide which on click used according to the database
+        // The OnClick can be send a card request, visualize an existing one, ...
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                OnClickContactFactory.getInstance().getOnClickContactListener(getActivity()).onItemClick(parent, view, position, id);
+                OnClickContactFactory.getInstance().getOnClickContactListener(parent, position).onItemClick(parent, view, position, id);
             }
         });
     }

@@ -1,7 +1,9 @@
 package com.project.unice.embeddedprogproject.pages;
 
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.project.unice.embeddedprogproject.R;
@@ -20,6 +22,7 @@ public class ViewHolderContacts implements ViewHolder {
 
     private TextView nom;
     private TextView phone;
+    private LinearLayout rowLayout;
 
     public ViewHolderContacts(List<Contact> contacts) {
         this.contacts = contacts;
@@ -29,6 +32,7 @@ public class ViewHolderContacts implements ViewHolder {
     public boolean initializeView(View view) {
         nom = (TextView) view.findViewById(R.id.textnamecontact);
         phone = (TextView) view.findViewById(R.id.phonecontact);
+        rowLayout = (LinearLayout) view.findViewById(R.id.contact_list_row_id);
         return true;
     }
 
@@ -36,6 +40,11 @@ public class ViewHolderContacts implements ViewHolder {
     public boolean fillView(int position) {
         nom.setText(contacts.get(position).name);
         phone.setText(contacts.get(position).phone);
+        if (contacts.get(position).idBusinessCard == -1) {
+            rowLayout.setBackgroundColor(Color.WHITE);
+        } else {
+            rowLayout.setBackgroundColor(Color.LTGRAY);
+        }
         return true;
     }
 

@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,21 +23,26 @@ public class ContactManager implements IContactManager {
         this.activity = activity;
     }
 
+
+    @Override
+    public List<IModel> getContacts() {
+        checkAndroidContactList();
+        DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
+        return manager.selectAll(Contact.class);
+    }
+
     /**
-     * Call the ContentResolver of the Contact application and return the list of Contact.
+     * Call the ContentResolver of the Contact application and add the new contact in the internal database.
      * @see Contact
      * @return the list of Contacts
      */
-    @Override
-    public List<Contact> getContacts() {
-        //TODO en fonction de title pour filter les contacts
+    private void checkAndroidContactList() {
         //get the contact resolver
         ContentResolver cr = activity.getContentResolver();
         //Query the contact application for a cursor to the contact lists
         Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
                 null, null, null, null);
         //create the contact list
-        List<Contact> l = new ArrayList<Contact>();
         if (cur != null && cur.getCount() > 0) {
             //for all the contacts
             while (cur.moveToNext()) {
@@ -47,7 +53,6 @@ public class ContactManager implements IContactManager {
                 String name = cur.getString(cur.getColumnIndex(
                         ContactsContract.Contacts.DISPLAY_NAME));
                 //create the contact object
-
                 //An other query is required for the phone number
                 if (cur.getInt(cur.getColumnIndex(
                         ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
@@ -59,21 +64,20 @@ public class ContactManager implements IContactManager {
                     //if the number is not empty
                     if (pCur != null) {
                         while (pCur.moveToNext()) {
-                            //add the information of the contact the the contact list
+                            //add the information of the contact the contact list
                             DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
-                            Contact c = (Contact) manager.first(Contact.class, "IdContactAndroid", id);
-                            if (c == null){
+                            Contact newContact = (Contact) manager.findFirstValue(Contact.class, "IdContactAndroid", id);
+                            if (newContact == null){
                                 //le contact n'est pas dans la bdd sqlite donc on l'ajoute
-                                c = new Contact();
-                                c.name = name;
-                                c.phone = pCur.getString(pCur.getColumnIndex(
+                                newContact = new Contact();
+                                newContact.name = name;
+                                newContact.phone = pCur.getString(pCur.getColumnIndex(
                                         ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                c.idContactAndroid = Integer.valueOf(id);
-                                c.idBusinessCard = -1;
-                                manager.add(c);
-                                System.out.println("AJOUT DE ==> " + c);
+                                newContact.idContactAndroid = Integer.valueOf(id);
+                                newContact.idBusinessCard = -1;
+                                manager.add(newContact);
+                                System.out.println("AJOUT DE ==> " + newContact);
                             }
-                            l.add(c);
                         }
                         pCur.close();
                     }
@@ -81,6 +85,5 @@ public class ContactManager implements IContactManager {
             }
             cur.close();
         }
-        return l;
     }
 }

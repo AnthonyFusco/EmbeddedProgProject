@@ -111,12 +111,13 @@ public class DataBaseTableManager extends DataBaseManager {
 
 
     /**
+     * Search and return an element from the database.
      * @param classe the model class
      * @param columnName the column to do the filter
      * @param value the value to do the filter
-     * @return the first element matching the parameters
+     * @return the first element matching the parameters, null if it doesn't exist
      */
-    public IModel first(Class<? extends IModel> classe, String columnName, Object value){
+    public IModel findFirstValue(Class<? extends IModel> classe, String columnName, Object value){
         open();
 
         Cursor cursor = null;
@@ -133,11 +134,13 @@ public class DataBaseTableManager extends DataBaseManager {
             } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
-            for (Field field : model.getClass().getDeclaredFields()) {
-                try {
-                    configureField(model, field, cursor);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
+            if (model != null) {
+                for (Field field : model.getClass().getDeclaredFields()) {
+                    try {
+                        configureField(model, field, cursor);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
             return model;

@@ -63,13 +63,8 @@ public class SmsListener extends BroadcastReceiver {
                             context.getContentResolver().update(Uri.parse("content://sms/"),
                                     values, "_id=" + id, null);
 
-                            if (body.contains("catch")) {
-                                // mLogger.logInfo("Deleting SMS with id: " + threadId);
-                                context.getContentResolver().delete(
-                                        Uri.parse("content://sms/" + id), "date=?",
-                                        new String[]{c.getString(4)});
-                                Log.e("log>>>", "Delete success.........");
-                                Toast.makeText(context, body, Toast.LENGTH_SHORT).show();
+                            if (body.contains(Sender.HEADER)) {
+                                handleReceive(context, c, id, body);
                                 abortBroadcast();
                             }
                         } while (c.moveToNext());
@@ -81,13 +76,16 @@ public class SmsListener extends BroadcastReceiver {
         }
     }
 
-    /**
-     * Method to convert current long type timestamp to human readable format - Easter egg ;)
-     */
-    public String getreadabledate() {
-        long milles = System.currentTimeMillis();
-        SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy HH:mm", Locale.getDefault());
-        Date resultdate = new Date(milles);
-        return df.format(resultdate);
+    private void handleReceive(Context context, Cursor c, long id, String body) {
+
+        context.getContentResolver().delete(
+                Uri.parse("content://sms/" + id), "date=?",
+                new String[]{c.getString(4)});
+
+        Log.e("log>>>", "Delete success.........");
+
+        String contactSerialized = body.substring(body.indexOf(Sender.HEADER));
+        Toast.makeText(context, contactSerialized, Toast.LENGTH_SHORT).show();
     }
+
 }

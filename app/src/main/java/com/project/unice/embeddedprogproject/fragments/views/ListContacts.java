@@ -8,13 +8,13 @@ import android.view.ViewGroup;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
+import com.project.unice.embeddedprogproject.models.AbstractModel;
 import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.models.ContactManager;
 import com.project.unice.embeddedprogproject.models.IContactManager;
+import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -27,9 +27,9 @@ import java.util.List;
 public class ListContacts extends AbstractFragment {
 
     //titles of the fragments
-    public static final String TOUS_TITLE = "TOUS";
-    public static final String AVEC_TITLE = "AVEC";
-    public static final String SANS_TITLE = "SANS";
+    public static final String All_CONTACT_TITLE = "All Contacts";
+    public static final String WITH_BUSINESS_CARD_TITLE = "With Card";
+    public static final String WITHOUT_BUSINESS_CARD_TITLE = "Without Card";
     private ContactManager contactManager;
 
     public ListContacts() {
@@ -53,20 +53,24 @@ public class ListContacts extends AbstractFragment {
         viewPager.setAdapter(fragmentManager);
 
         contactManager = new ContactManager(getActivity());
-        List<Contact> contacts = contactsFactory();
-        List<Contact> avec = new ArrayList<>();
-        List<Contact> sans = new ArrayList<>();
-        for (Contact c : contacts) {
-            if (c.idBusinessCard == -1){
-                sans.add(c);
-            }else{
-                avec.add(c);
+        List<IModel> models = contactsFactory();
+        List<Contact> contactWithCardList = new ArrayList<>();
+        List<Contact> contactWithoutCardList = new ArrayList<>();
+
+        List<Contact> contacts = new ArrayList<>();
+        for (IModel model : models) {
+            Contact contact = ((Contact) model);
+            contacts.add(contact);
+            if (contact.idBusinessCard == -1) {
+                contactWithoutCardList.add(contact);
+            } else {
+                contactWithCardList.add(contact);
             }
         }
 
-        fragmentManager.addFragment(new ViewContacts(TOUS_TITLE, contacts));
-        fragmentManager.addFragment(new ViewContacts(AVEC_TITLE, avec));
-        fragmentManager.addFragment(new ViewContacts(SANS_TITLE, sans));
+        fragmentManager.addFragment(new ViewContacts(All_CONTACT_TITLE, contacts));
+        fragmentManager.addFragment(new ViewContacts(WITH_BUSINESS_CARD_TITLE, contactWithCardList));
+        fragmentManager.addFragment(new ViewContacts(WITHOUT_BUSINESS_CARD_TITLE, contactWithoutCardList));
         fragmentManager.notifyDataSetChanged();
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
@@ -78,7 +82,7 @@ public class ListContacts extends AbstractFragment {
      *
      * @return the list of Contact
      */
-    private List<Contact> contactsFactory() {
+    private List<IModel> contactsFactory() {
         return contactManager.getContacts();
     }
 }

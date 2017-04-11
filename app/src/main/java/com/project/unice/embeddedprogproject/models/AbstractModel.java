@@ -57,7 +57,7 @@ public abstract class AbstractModel implements IModel {
 
     /**
      * A couple of two elements
-     * @param <X> first element
+     * @param <X> findFirstValue element
      * @param <Y> second element
      */
     public class Tuple<X, Y> {

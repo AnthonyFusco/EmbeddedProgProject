@@ -13,6 +13,7 @@ import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
+import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
@@ -35,17 +36,26 @@ public class MainActivity extends AppCompatActivity {
         smsBroadcastReceiver.enableBroadcastReceiver();
 
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        myToolbar.setTitle(R.string.pending_request);
+        change(1);
+        myToolbar.setTitle(R.string.contact_list);
         setSupportActionBar(myToolbar);
 
 
-        /*DataBaseTableManager manager = new DataBaseTableManager(this, DataBaseManager.DATABASE_NAME);
+       /* DataBaseTableManager manager = new DataBaseTableManager(this, DataBaseManager.DATABASE_NAME);
         BusinessCard card = new BusinessCard();
-        card.name = "anthony";
+        card.name = "toto";
         card.company = "UNS";
 
         manager.add(card);
-        for (IModel model : manager.selectAll(BusinessCard.class)) {
+
+        Contact contact = new Contact();
+        contact.name = "toto";
+        contact.idBusinessCard = 42;
+        contact.phone = "42";
+
+        manager.add(contact);*/
+
+        /*for (IModel model : manager.selectAll(Contact.class)) {
             System.out.println(model);
         }*/
     }
