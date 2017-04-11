@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject.fragments.views;
+package com.project.unice.embeddedprogproject.models;
 
 import android.content.ContentResolver;
 import android.content.Context;
@@ -13,11 +13,11 @@ import java.util.List;
 /**
  * Implementation of {@link IContactManager} which return the contact list with a possibility of SQL query.
  */
-class ContactManager implements IContactManager {
+public class ContactManager implements IContactManager {
 
     private Context activity;
 
-    ContactManager(Context activity) {
+    public ContactManager(Context activity) {
         this.activity = activity;
     }
 
@@ -63,6 +63,7 @@ class ContactManager implements IContactManager {
                             c.name = name;
                             c.phone = pCur.getString(pCur.getColumnIndex(
                                     ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            c.id = Integer.valueOf(id);
                             l.add(c);
                         }
                         pCur.close();

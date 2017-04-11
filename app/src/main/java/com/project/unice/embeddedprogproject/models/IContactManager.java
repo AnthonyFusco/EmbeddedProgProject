@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject.fragments.views;
+package com.project.unice.embeddedprogproject.models;
 
 import com.project.unice.embeddedprogproject.pages.Contact;
 
@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Interface to handle multiple ContentResolver
  */
-interface IContactManager {
+public interface IContactManager {
     /**
      * Get the list of contact to be used by a listView.
      * @see Contact
