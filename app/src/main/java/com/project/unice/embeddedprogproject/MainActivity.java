@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ViewPager viewPager;
     private SmsBroadcastReceiver smsBroadcastReceiver;
+    private Toolbar myToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         smsBroadcastReceiver = new SmsBroadcastReceiver(getApplicationContext());
         smsBroadcastReceiver.enableBroadcastReceiver();
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        myToolbar.setTitle(R.string.BUSINESS_CARD);
+        myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        myToolbar.setTitle(R.string.pending_request);
         setSupportActionBar(myToolbar);
 
 
@@ -79,17 +80,20 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_favorites:
+            case R.id.action_requests:
                 change(0);
+                myToolbar.setTitle(getString(R.string.pending_request));
                 return true;
-            case R.id.action_schedules :
+            case R.id.action_list_contacts :
                 change(1);
+                myToolbar.setTitle(R.string.contact_list);
                 return true;
             case R.id.action_myprofile:
                 Intent intent = new Intent(MainActivity.this, MyProfileActivity.class);
                 startActivity(intent);
                 return true;
             default:
+                myToolbar.setTitle(R.string.BUSINESS_CARD);
                 return super.onOptionsItemSelected(item);
         }
     }
