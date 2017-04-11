@@ -10,12 +10,20 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * Gestion des tables de la base de donnees
+ */
 public class DataBaseTableManager extends DataBaseManager {
 
     public DataBaseTableManager(Context pContext, String nomBase) {
         super(pContext, nomBase);
     }
 
+    /**
+     * Ajout du model dans la base de donnees
+     * @param model le model a ajouter
+     */
     public void add(AbstractModel model) {
         open();
         ContentValues value = new ContentValues();
@@ -24,6 +32,11 @@ public class DataBaseTableManager extends DataBaseManager {
         close();
     }
 
+
+    /**
+     * Supprimer un ensemble de models dans la base de donnees
+     * @param list la liste des models a supprimer
+     */
     public void removeRange(List<AbstractModel> list) {
         open();
         for (AbstractModel model : list) {
@@ -38,6 +51,10 @@ public class DataBaseTableManager extends DataBaseManager {
     }
 
 
+    /**
+     * Supprimer un model dans la base de donnees
+     * @param model le model a supprimer
+     */
     public void remove(AbstractModel model) {
         open();
         AbstractModel.Tuple<Field, ModelAnnotation> tuple = model.getPrimaryProperties();
@@ -50,35 +67,54 @@ public class DataBaseTableManager extends DataBaseManager {
     }
 
 
-
-    public List<AbstractModel> selectWhere(Class<? extends IModel> classe, ModelAnnotation annotation, Object value) {
+    /**
+     * Selectionner un ensemble de models en fonction d'un predicat
+     * @param classe le type mu model a traiter
+     * @param columnName le nom de la colonne a filtrer
+     * @param value la valeur a filtrer
+     * @return liste de models
+     */
+    public List<IModel> selectWhere(Class<? extends IModel> classe, String columnName, Object value) {
         open();
 
         Cursor cursor = null;
-        try {
-            cursor = getDatabase().rawQuery("select * from " + classe.newInstance().getTableName() + " where " + annotation.columnName() + " = ?", new String[]{String.valueOf(value)});
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-        List<AbstractModel> list = new ArrayList<>();
-        while (cursor.moveToNext()) {
+        List<IModel> list = new ArrayList<>();
 
-            /*String contenu = cursor.getString(0);
-            try {
-                score.fromJson(new JSONObject(contenu));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }*/
-            //list.add();
+        try {
+            cursor = getDatabase().rawQuery("select * from " + classe.newInstance().getTableName() + " where " + columnName + " = ?", new String[]{String.valueOf(value)});
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
         }
-        cursor.close();
+        while (cursor != null && cursor.moveToNext()) {
+            IModel model = null;
+            try {
+                model = classe.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            for (Field field : model.getClass().getDeclaredFields()) {
+                try {
+                    configureField(model, field, cursor);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            list.add(model);
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
 
         close();
         return list;
     }
 
+
+    /**
+     * Select all of the models of one type
+     * @param classe the type to select
+     * @return list of the types
+     */
     public List<IModel> selectAll(Class<? extends IModel> classe) {
         open();
 
@@ -113,6 +149,13 @@ public class DataBaseTableManager extends DataBaseManager {
         return list;
     }
 
+    /**
+     * Unserialize a field of a model
+     * @param model the model target
+     * @param field the field target
+     * @param cursor the cursor where the data is
+     * @throws IllegalAccessException
+     */
     private void configureField(IModel model, Field field, Cursor cursor) throws IllegalAccessException {
         ModelAnnotation annotation = field.getAnnotation(ModelAnnotation.class);
         if (annotation != null) {

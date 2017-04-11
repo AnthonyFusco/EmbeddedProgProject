@@ -3,6 +3,9 @@ package com.project.unice.embeddedprogproject.models;
 import com.project.unice.embeddedprogproject.sqlite.ModelAnnotation;
 import com.project.unice.embeddedprogproject.sqlite.SqliteTypes;
 
+/**
+ * Model Business Card
+ */
 public class BusinessCard extends AbstractModel {
 
     @ModelAnnotation(columnName = "Id", primaryKey = true, sqlType = SqliteTypes.INTEGER)

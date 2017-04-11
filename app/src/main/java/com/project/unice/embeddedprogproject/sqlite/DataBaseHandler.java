@@ -7,6 +7,14 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.project.unice.embeddedprogproject.models.AbstractModel;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
 
+
+/**
+ * Creation de la base de donnees
+ * Pour ajouter des tables a la base il faut mettre a jour les deux fonctions onCreate et onUpgrade
+ *
+ * db.execSQL(AbstractModel.createTableRequest(NouvelleClasse.class));
+ * db.execSQL(AbstractModel.dropTableRequest(NouvelleClasse.class));
+ */
 public class DataBaseHandler extends SQLiteOpenHelper {
 
     public DataBaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {

@@ -9,13 +9,25 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+
+/**
+ * All of the models may extends this class
+ * Every model may have for each property a ModelAnnotation
+ */
 public abstract class AbstractModel implements IModel {
 
+    /**
+     * @return The name of the Table in the database
+     */
     @Override
     public String getTableName() {
         return getClass().getSimpleName();
     }
 
+    /**
+     * Method to serialize a model
+     * @param value the container of the values
+     */
     @Override
     public void put(ContentValues value) {
         for (Field field : getModelProperties()) {
@@ -29,6 +41,9 @@ public abstract class AbstractModel implements IModel {
         }
     }
 
+    /**
+     * @return All the columns fields of the model
+     */
     public List<Field> getModelProperties(){
         List<Field> list = new ArrayList<>();
         for (Field field : getClass().getDeclaredFields()) {
@@ -40,6 +55,11 @@ public abstract class AbstractModel implements IModel {
         return list;
     }
 
+    /**
+     * A couple of two elements
+     * @param <X> first element
+     * @param <Y> second element
+     */
     public class Tuple<X, Y> {
         public final X x;
         public final Y y;
@@ -49,6 +69,9 @@ public abstract class AbstractModel implements IModel {
         }
     }
 
+    /**
+     * @return The tuple Field/Annotation for the primary key
+     */
     public Tuple<Field, ModelAnnotation> getPrimaryProperties(){
         ModelAnnotation annotationId = null;
         Field fieldId = null;
@@ -64,6 +87,9 @@ public abstract class AbstractModel implements IModel {
         return new Tuple<>(fieldId, annotationId);
     }
 
+    /**
+     * @return the request to create the table
+     */
     public String createTableRequest(){
         StringBuilder builder = new StringBuilder();
         builder.append("CREATE TABLE " + getTableName());
@@ -87,10 +113,17 @@ public abstract class AbstractModel implements IModel {
         return builder.toString();
     }
 
+    /**
+     * @return the request to drop the table
+     */
     public String dropTableRequest(){
         return "DROP TABLE IF EXISTS " + getTableName() + ";";
     }
 
+    /**
+     * @param classe the model to create the table
+     * @return the request to create the table for the model passed
+     */
     public static String createTableRequest(Class<? extends AbstractModel> classe){
         try {
             return classe.newInstance().createTableRequest();
@@ -100,6 +133,10 @@ public abstract class AbstractModel implements IModel {
         return null;
     }
 
+    /**
+     * @param classe the model to drop the table
+     * @return the request to drop the table for the model passed
+     */
     public static String dropTableRequest(Class<? extends AbstractModel> classe){
         try {
             return classe.newInstance().dropTableRequest();

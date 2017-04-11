@@ -3,6 +3,9 @@ package com.project.unice.embeddedprogproject.sqlite;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+/**
+ * Gestion de la base de donnees
+ */
 public class DataBaseManager {
     private final static int VERSION = 1;
     public static final String DATABASE_NAME = "database.db";
