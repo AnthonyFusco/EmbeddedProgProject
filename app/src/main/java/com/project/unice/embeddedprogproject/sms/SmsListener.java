@@ -18,6 +18,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * Parse a received SMS.
+ */
 public class SmsListener extends BroadcastReceiver {
 
     private SharedPreferences preferences;

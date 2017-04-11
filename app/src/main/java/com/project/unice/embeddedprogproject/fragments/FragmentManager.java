@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+/**
+ * Contains a list of Fragments and allow multiple utils functions.
+ */
 public class FragmentManager extends FragmentStatePagerAdapter {
 
     private List<AbstractFragment> list;

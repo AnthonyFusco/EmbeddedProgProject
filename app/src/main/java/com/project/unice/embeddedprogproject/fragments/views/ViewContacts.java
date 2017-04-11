@@ -17,6 +17,10 @@ import com.project.unice.embeddedprogproject.pages.ViewHolderContacts;
 import java.util.List;
 
 
+/**
+ * Fragment displaying all the contacts.
+ * Add a listener to the items.
+ */
 public class ViewContacts extends AbstractFragment {
 
     private final List<Contact> contacts;
@@ -30,18 +34,30 @@ public class ViewContacts extends AbstractFragment {
     protected void onCreateFragment(ViewGroup rootView, Bundle savedInstanceState) {
         ListView listView = (ListView)rootView.findViewById(R.id.listView_contacts);
 
-        LayoutListAdapter<Contact> adapter = new LayoutListAdapter<>();
-        adapter.setViewHolder(new ViewHolderContacts(contacts));
-        adapter.setInflater(getLayoutInflater(savedInstanceState));
-        adapter.setListElements(contacts);
-        adapter.setLayout(R.layout.contact_list_row);
-        listView.setAdapter(adapter);
+        initListView(savedInstanceState, listView);
 
+        //listener on the list items. Use a factory class to decide which on click used according to the database
+        // //The OnClick can be send a card request, visualize an existing one, ...
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 OnClickContactFactory.getInstance().getOnClickContactListener(getActivity()).onItemClick(parent, view, position, id);
             }
         });
+    }
+
+    /**
+     * Initialize the view.
+     * Inflate the contacts elements.
+     * @param savedInstanceState
+     * @param listView
+     */
+    private void initListView(Bundle savedInstanceState, ListView listView) {
+        LayoutListAdapter<Contact> adapter = new LayoutListAdapter<>();
+        adapter.setViewHolder(new ViewHolderContacts(contacts));
+        adapter.setInflater(getLayoutInflater(savedInstanceState));
+        adapter.setListElements(contacts);
+        adapter.setLayout(R.layout.contact_list_row);
+        listView.setAdapter(adapter);
     }
 }

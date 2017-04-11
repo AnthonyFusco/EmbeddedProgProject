@@ -10,6 +10,9 @@ import com.project.unice.embeddedprogproject.ViewHolder;
 import java.util.List;
 
 
+/**
+ * Personalized the view of a contact.
+ */
 public class ViewHolderContacts implements ViewHolder {
 
     private final List<Contact> contacts;
@@ -22,16 +25,17 @@ public class ViewHolderContacts implements ViewHolder {
     }
 
     @Override
-    public boolean initialize(int position) {
+    public boolean initializeView(View view) {
+        nom = (TextView) view.findViewById(R.id.textnamecontact);
+        phone = (TextView) view.findViewById(R.id.phonecontact);
+        return true;
+    }
+
+    @Override
+    public boolean fillView(int position) {
         nom.setText(contacts.get(position).name);
         phone.setText(contacts.get(position).phone);
         return true;
     }
 
-    @Override
-    public boolean configure(View view) {
-        nom = (TextView) view.findViewById(R.id.textnamecontact);
-        phone = (TextView) view.findViewById(R.id.phonecontact);
-        return true;
-    }
 }

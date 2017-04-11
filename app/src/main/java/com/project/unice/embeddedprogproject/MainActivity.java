@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
         initFragment();
 
+        //Create the broadcast receiver for the SMS. The App will listen for a new SMS and parse it.
         smsBroadcastReceiver = new SmsBroadcastReceiver(getApplicationContext());
         smsBroadcastReceiver.enableBroadcastReceiver();
 
@@ -39,6 +40,9 @@ public class MainActivity extends AppCompatActivity {
         smsBroadcastReceiver.disableBroadcastReceiver();
     }
 
+    /**
+     * Initialize the Fragment Manager and the  ViewPager and add multiple Fragment to it.
+     */
     private void initFragment() {
         FragmentManager fragmentManager = new FragmentManager(getSupportFragmentManager());
 

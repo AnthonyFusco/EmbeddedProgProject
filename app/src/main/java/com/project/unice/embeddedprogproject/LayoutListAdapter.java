@@ -4,13 +4,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.TextView;
-
-import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
-import com.project.unice.embeddedprogproject.pages.Contact;
 
 import java.util.List;
 
+/**
+ * Personalize adapter of a list.
+ * Allow a personalize {@link ViewHolder}.
+ * @param <T> the type of the objects in the list
+ */
 public class LayoutListAdapter<T> extends BaseAdapter {
 
     private List<T> listElements;
@@ -51,13 +52,12 @@ public class LayoutListAdapter<T> extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View view;
+        //View Holder pattern ?
         view = inflater.inflate(layout, null);
-        holder.configure(view);
-        //holder.nom = (TextView) view.findViewById(R.id.textnamecontact);
+        holder.initializeView(view);
         view.setTag(holder);
-        holder.initialize(position);
-        //holder.ref = position;
-        //holder.nom.setText(((Contact)listElements.get(position)).name);
+        holder.fillView(position);
+
         return view;
     }
 

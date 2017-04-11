@@ -9,6 +9,10 @@ import android.widget.Toast;
 
 import com.project.unice.embeddedprogproject.sms.SmsListener;
 
+/**
+ * BroadcastReceiver listening to the reception of SMS.
+ *
+ */
 class SmsBroadcastReceiver {
 
     private static final int NOTIFICATION = 81237;
@@ -18,6 +22,9 @@ class SmsBroadcastReceiver {
         this.activity = activity;
     }
 
+    /**
+     * Enable the SMS listener and notify the app when a sms is received.
+     */
     void enableBroadcastReceiver() {
         ComponentName receiver = new ComponentName(activity, SmsListener.class); //created SMSLog class above!
         PackageManager packageManager = activity.getPackageManager();
@@ -26,7 +33,6 @@ class SmsBroadcastReceiver {
                 PackageManager.DONT_KILL_APP);
         Toast.makeText(activity, "Enabled logging", Toast.LENGTH_SHORT).show();
 
-        //Let us also show a notification
         Notification notification = new Notification.Builder(activity)
                 .setContentTitle("SMS Logger Running")
                 .setContentText("Status: Logging..")
@@ -37,7 +43,10 @@ class SmsBroadcastReceiver {
         notifier.notify(NOTIFICATION, notification);
     }
 
-    public void disableBroadcastReceiver() {
+    /**
+     * Clean the listener.
+     */
+    void disableBroadcastReceiver() {
         ComponentName receiver = new ComponentName(activity, SmsListener.class);
         PackageManager pm = activity.getPackageManager();
         pm.setComponentEnabledSetting(receiver,

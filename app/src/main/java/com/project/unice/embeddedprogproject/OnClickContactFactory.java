@@ -9,6 +9,9 @@ import android.widget.AdapterView;
 
 import com.project.unice.embeddedprogproject.pages.Contact;
 
+/**
+ * Singleton Factory to choose which kind of onCLick to use after an itemCLick.
+ */
 public class OnClickContactFactory {
     private static final OnClickContactFactory ourInstance = new OnClickContactFactory();
 
@@ -19,12 +22,16 @@ public class OnClickContactFactory {
     private OnClickContactFactory() {
     }
 
+    /**
+     * Prompt the user if he want to send a sms to the selected contact and send it if yes.
+     * @param context context of the app
+     * @return the onClickListener
+     */
     public AdapterView.OnItemClickListener getOnClickContactListener(final Context context){
         return new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Contact contact = (Contact) parent.getItemAtPosition(position);
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage("Send Message ?")

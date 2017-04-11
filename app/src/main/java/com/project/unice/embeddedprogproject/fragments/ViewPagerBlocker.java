@@ -6,6 +6,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 
+/**
+ * Mark the end of the Fragment view.
+ */
 public class ViewPagerBlocker extends ViewPager {
 
     public ViewPagerBlocker(Context context, AttributeSet attrs) {

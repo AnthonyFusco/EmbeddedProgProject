@@ -7,12 +7,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+/**
+ * Abstraction of the creation of a fragment.
+ * The construction of a fragment now only requires a layout and a title.
+ */
 public abstract class AbstractFragment extends Fragment implements IFragment {
 
     private String title;
     private int layout;
 
 
+    /**
+     * Constructor for AbstractFragment.
+     * @param title the title to be displayed
+     * @param layout the layout to be used in the view
+     */
     public AbstractFragment(String title, int layout) {
         this.title = title;
         this.layout = layout;
