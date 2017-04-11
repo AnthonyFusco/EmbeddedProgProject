@@ -8,15 +8,19 @@ import android.view.ViewGroup;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
+import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.models.ContactManager;
 import com.project.unice.embeddedprogproject.models.IContactManager;
-import com.project.unice.embeddedprogproject.pages.Contact;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
 /**
  * Fragment displaying a list on Contact.
+ *
  * @see Contact
  * @see AbstractFragment
  */
@@ -39,6 +43,7 @@ public class ListContacts extends AbstractFragment {
 
     /**
      * Init multiple Fragment to be displayed in the view.
+     *
      * @param rootView the container view
      */
     private void initFragment(ViewGroup rootView) {
@@ -48,11 +53,20 @@ public class ListContacts extends AbstractFragment {
         viewPager.setAdapter(fragmentManager);
 
         contactManager = new ContactManager(getActivity());
-        List<Contact> contacts = contactsFactory("");
+        List<Contact> contacts = contactsFactory();
+        List<Contact> avec = new ArrayList<>();
+        List<Contact> sans = new ArrayList<>();
+        for (Contact c : contacts) {
+            if (c.idBusinessCard == -1){
+                sans.add(c);
+            }else{
+                avec.add(c);
+            }
+        }
 
         fragmentManager.addFragment(new ViewContacts(TOUS_TITLE, contacts));
-        fragmentManager.addFragment(new ViewContacts(AVEC_TITLE, contacts));
-        fragmentManager.addFragment(new ViewContacts(SANS_TITLE, contacts));
+        fragmentManager.addFragment(new ViewContacts(AVEC_TITLE, avec));
+        fragmentManager.addFragment(new ViewContacts(SANS_TITLE, sans));
         fragmentManager.notifyDataSetChanged();
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);
@@ -61,11 +75,10 @@ public class ListContacts extends AbstractFragment {
 
     /**
      * Factory method used to decide which type of {@link IContactManager} to be used.
-     * @param title filter for the SQL Query
+     *
      * @return the list of Contact
      */
-    private List<Contact> contactsFactory(String title){
-        //TODO en fonction de title pour filter les contacts
-        return contactManager.getContacts(title);
+    private List<Contact> contactsFactory() {
+        return contactManager.getContacts();
     }
 }

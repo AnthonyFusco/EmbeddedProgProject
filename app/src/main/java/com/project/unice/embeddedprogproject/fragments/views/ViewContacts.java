@@ -11,9 +11,10 @@ import com.project.unice.embeddedprogproject.LayoutListAdapter;
 import com.project.unice.embeddedprogproject.OnClickContactFactory;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
-import com.project.unice.embeddedprogproject.pages.Contact;
+import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.pages.ViewHolderContacts;
 
+import java.util.Collection;
 import java.util.List;
 
 

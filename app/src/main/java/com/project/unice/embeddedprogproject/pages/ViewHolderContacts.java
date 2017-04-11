@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.ViewHolder;
+import com.project.unice.embeddedprogproject.models.Contact;
 
 import java.util.List;
 

@@ -5,7 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
-import com.project.unice.embeddedprogproject.pages.Contact;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,11 +25,10 @@ public class ContactManager implements IContactManager {
     /**
      * Call the ContentResolver of the Contact application and return the list of Contact.
      * @see Contact
-     * @param filter used to filter the contacts
      * @return the list of Contacts
      */
     @Override
-    public List<Contact> getContacts(String filter) {
+    public List<Contact> getContacts() {
         //TODO en fonction de title pour filter les contacts
         //get the contact resolver
         ContentResolver cr = activity.getContentResolver();
@@ -47,7 +47,7 @@ public class ContactManager implements IContactManager {
                 String name = cur.getString(cur.getColumnIndex(
                         ContactsContract.Contacts.DISPLAY_NAME));
                 //create the contact object
-                Contact c = new Contact();
+
                 //An other query is required for the phone number
                 if (cur.getInt(cur.getColumnIndex(
                         ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
@@ -60,10 +60,19 @@ public class ContactManager implements IContactManager {
                     if (pCur != null) {
                         while (pCur.moveToNext()) {
                             //add the information of the contact the the contact list
-                            c.name = name;
-                            c.phone = pCur.getString(pCur.getColumnIndex(
-                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            c.id = Integer.valueOf(id);
+                            DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
+                            Contact c = (Contact) manager.first(Contact.class, "IdContactAndroid", id);
+                            if (c == null){
+                                //le contact n'est pas dans la bdd sqlite donc on l'ajoute
+                                c = new Contact();
+                                c.name = name;
+                                c.phone = pCur.getString(pCur.getColumnIndex(
+                                        ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                c.idContactAndroid = Integer.valueOf(id);
+                                c.idBusinessCard = -1;
+                                manager.add(c);
+                                System.out.println("AJOUT DE ==> " + c);
+                            }
                             l.add(c);
                         }
                         pCur.close();

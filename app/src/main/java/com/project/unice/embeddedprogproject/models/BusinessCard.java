@@ -17,16 +17,12 @@ public class BusinessCard extends AbstractModel {
     @ModelAnnotation(columnName = "Company", sqlType = SqliteTypes.TEXT)
     public String company;
 
-    @ModelAnnotation(columnName = "isCardAvailable", sqlType = SqliteTypes.INTEGER)
-    public String isCardAvailable;
-
     @Override
     public String toString() {
         return "BusinessCard{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", company='" + company + '\'' +
-                ", isCardAvailable='" + isCardAvailable + '\'' +
                 '}';
     }
 }

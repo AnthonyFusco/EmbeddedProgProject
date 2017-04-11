@@ -7,7 +7,7 @@ import android.telephony.SmsManager;
 import android.view.View;
 import android.widget.AdapterView;
 
-import com.project.unice.embeddedprogproject.pages.Contact;
+import com.project.unice.embeddedprogproject.models.Contact;
 
 /**
  * Singleton Factory to choose which kind of onCLick to use after an itemCLick.

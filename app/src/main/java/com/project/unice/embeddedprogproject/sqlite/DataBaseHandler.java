@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.project.unice.embeddedprogproject.models.AbstractModel;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
+import com.project.unice.embeddedprogproject.models.Contact;
 
 
 /**
@@ -24,11 +25,13 @@ public class DataBaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(AbstractModel.createTableRequest(BusinessCard.class));
+        db.execSQL(AbstractModel.createTableRequest(Contact.class));
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(AbstractModel.dropTableRequest(BusinessCard.class));
+        db.execSQL(AbstractModel.dropTableRequest(Contact.class));
         onCreate(db);
     }
 }

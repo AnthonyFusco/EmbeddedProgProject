@@ -111,6 +111,47 @@ public class DataBaseTableManager extends DataBaseManager {
 
 
     /**
+     * @param classe the model class
+     * @param columnName the column to do the filter
+     * @param value the value to do the filter
+     * @return the first element matching the parameters
+     */
+    public IModel first(Class<? extends IModel> classe, String columnName, Object value){
+        open();
+
+        Cursor cursor = null;
+
+        try {
+            cursor = getDatabase().rawQuery("select * from " + classe.newInstance().getTableName() + " where " + columnName + " = ?", new String[]{String.valueOf(value)});
+        } catch (InstantiationException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        while (cursor != null && cursor.moveToNext()) {
+            IModel model = null;
+            try {
+                model = classe.newInstance();
+            } catch (InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            for (Field field : model.getClass().getDeclaredFields()) {
+                try {
+                    configureField(model, field, cursor);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+            return model;
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+
+        close();
+        return null;
+    }
+
+
+    /**
      * Select all of the models of one type
      * @param classe the type to select
      * @return list of the types
