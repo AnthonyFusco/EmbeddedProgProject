@@ -12,6 +12,10 @@ import android.view.MenuItem;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
+import com.project.unice.embeddedprogproject.models.BusinessCard;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +36,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
         myToolbar.setTitle(R.string.BUSINESS_CARD);
         setSupportActionBar(myToolbar);
+
+
+        /*DataBaseTableManager manager = new DataBaseTableManager(this, DataBaseManager.DATABASE_NAME);
+        BusinessCard card = new BusinessCard();
+        card.name = "anthony";
+        card.company = "UNS";
+
+        manager.add(card);
+        for (IModel model : manager.selectAll(BusinessCard.class)) {
+            System.out.println(model);
+        }*/
     }
 
     @Override
