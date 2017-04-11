@@ -1,5 +1,6 @@
 package com.project.unice.embeddedprogproject;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -11,7 +12,6 @@ import android.view.MenuItem;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
-import com.project.unice.embeddedprogproject.fragments.views.MyProfile;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager.addFragment(new ListRequests());
         fragmentManager.addFragment(new ListContacts());
-        fragmentManager.addFragment(new MyProfile());
         fragmentManager.notifyDataSetChanged();
     }
 
@@ -72,7 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 change(1);
                 return true;
             case R.id.action_myprofile:
-                change(2);
+                Intent intent = new Intent(MainActivity.this, MyProfileActivity.class);
+                startActivity(intent);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
