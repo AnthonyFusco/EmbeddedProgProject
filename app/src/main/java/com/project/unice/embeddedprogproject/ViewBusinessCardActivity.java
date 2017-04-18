@@ -11,13 +11,13 @@ import com.project.unice.embeddedprogproject.models.Contact;
 /**
  * Pretty display of a Business Card.
  */
-public class MyProfileActivity extends AppCompatActivity {
+public class ViewBusinessCardActivity extends AppCompatActivity {
     public static final String CONTACT_INTENT_CODE = "contact";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.my_profile);
+        setContentView(R.layout.view_businesscard_activity);
 
         Intent intent = getIntent();
         String contactSerialized = intent.getStringExtra(CONTACT_INTENT_CODE);

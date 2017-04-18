@@ -59,10 +59,10 @@ public class OnClickContactFactory {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             final Contact contact = (Contact) parent.getItemAtPosition(position);
 
-            Intent intent = new Intent(view.getContext(), MyProfileActivity.class);
+            Intent intent = new Intent(view.getContext(), ViewBusinessCardActivity.class);
             Gson gson = new Gson();
             String contactSerialized = gson.toJson(contact);
-            intent.putExtra(MyProfileActivity.CONTACT_INTENT_CODE, contactSerialized);
+            intent.putExtra(ViewBusinessCardActivity.CONTACT_INTENT_CODE, contactSerialized);
 
             view.getContext().startActivity(intent);
         }
