@@ -5,7 +5,10 @@ import android.telephony.SmsManager;
 import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.models.Contact;
 
-public class Sender {
+/**
+ * Encapsulation for the action of sending a business card.
+ */
+public class Sender implements ISender{
     public static final String HEADER = "{BUSINESS_CARD}";
     private static final Sender ourInstance = new Sender();
 

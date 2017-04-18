@@ -9,6 +9,7 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Telephony;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
@@ -25,7 +26,7 @@ public class SmsListener extends BroadcastReceiver {
 
     private SharedPreferences preferences;
 
-    @Override
+   /* @Override
     public void onReceive(Context context, Intent intent) {
         Intent smsRecvIntent = new Intent("android.provider.Telephony.SMS_RECEIVED");
         List<ResolveInfo> infos = context.getPackageManager().queryBroadcastReceivers(smsRecvIntent, 0);
@@ -49,7 +50,7 @@ public class SmsListener extends BroadcastReceiver {
                             long id = c.getLong(0);
                             long threadId = c.getLong(1);
                             String address = c.getString(2);
-                            String body = c.getString(5);
+                            String body  = c.getString(5);
                             String date = c.getString(3);
                             Log.e("log>>>",
                                     "0--->" + c.getString(0) + "1---->" + c.getString(1)
@@ -74,16 +75,23 @@ public class SmsListener extends BroadcastReceiver {
                 }
             }
         }
+    }*/
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
+            for (SmsMessage smsMessage : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
+                String messageBody = smsMessage.getMessageBody();
+                if (messageBody.contains(Sender.HEADER)) {
+                    Log.e("log>>>", "received business card");
+                    int id = smsMessage.getIndexOnIcc();
+                    handleReceive(context, id, messageBody);
+                }
+            }
+        }
     }
 
-    private void handleReceive(Context context, Cursor c, long id, String body) {
-
-        context.getContentResolver().delete(
-                Uri.parse("content://sms/" + id), "date=?",
-                new String[]{c.getString(4)});
-
-        Log.e("log>>>", "Delete success.........");
-
+    private void handleReceive(Context context, long id, String body) {
         String contactSerialized = body.substring(body.indexOf(Sender.HEADER));
         Toast.makeText(context, contactSerialized, Toast.LENGTH_SHORT).show();
     }
