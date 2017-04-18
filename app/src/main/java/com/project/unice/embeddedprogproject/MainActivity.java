@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
+import com.project.unice.embeddedprogproject.fragments.views.MyProfileEditor;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
@@ -77,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentManager.addFragment(new ListRequests());
         fragmentManager.addFragment(new ListContacts());
+        fragmentManager.addFragment(new MyProfileEditor());
         fragmentManager.notifyDataSetChanged();
     }
 
@@ -99,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
                 myToolbar.setTitle(R.string.contact_list);
                 return true;
             case R.id.action_myprofile:
-                Intent intent = new Intent(MainActivity.this, MyProfileActivity.class);
-                startActivity(intent);
+                change(2);
+                myToolbar.setTitle(R.string.contact_list);
                 return true;
             default:
                 myToolbar.setTitle(R.string.BUSINESS_CARD);

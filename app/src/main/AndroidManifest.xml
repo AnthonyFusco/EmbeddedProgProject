@@ -26,7 +26,7 @@
         </activity>
 
         <activity
-            android:name=".MyProfileActivity"
+            android:name=".ViewBusinessCardActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape">
         </activity>
