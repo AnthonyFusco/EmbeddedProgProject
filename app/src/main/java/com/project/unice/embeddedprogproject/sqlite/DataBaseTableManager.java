@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.project.unice.embeddedprogproject.models.AbstractModel;
+import com.project.unice.embeddedprogproject.models.Contact;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -66,6 +67,15 @@ public class DataBaseTableManager extends DataBaseManager {
         close();
     }
 
+    /**
+     * modifier un model dans la base de donnees
+     */
+    public void modifyId(String columnAttribute, int newValue, String phoneNumber) {
+        Cursor cursor = getDatabase().rawQuery("update Contact set " + columnAttribute + " = " + newValue + " where Phone  = ?", new String[]{String.valueOf(phoneNumber)});
+        if (cursor != null) {
+            cursor.close();
+        }
+    }
 
     /**
      * Selectionner un ensemble de models en fonction d'un predicat

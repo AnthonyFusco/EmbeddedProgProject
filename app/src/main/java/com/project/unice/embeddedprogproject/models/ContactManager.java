@@ -18,6 +18,7 @@ import java.util.List;
 public class ContactManager implements IContactManager {
 
     private Context activity;
+    private ArrayList<IModel> contacts;
 
     public ContactManager(Context activity) {
         this.activity = activity;
@@ -27,16 +28,18 @@ public class ContactManager implements IContactManager {
     @Override
     public List<IModel> getContacts() {
         checkAndroidContactList();
-        DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
-        return manager.selectAll(Contact.class);
+        //DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
+        //return manager.selectAll(Contact.class);
+        return new ArrayList<>(contacts);
     }
 
     /**
      * Call the ContentResolver of the Contact application and add the new contact in the internal database.
+     *
      * @see Contact
-     * @return the list of Contacts
      */
     private void checkAndroidContactList() {
+        contacts = new ArrayList<>();
         //get the contact resolver
         ContentResolver cr = activity.getContentResolver();
         //Query the contact application for a cursor to the contact lists
@@ -67,17 +70,23 @@ public class ContactManager implements IContactManager {
                             //add the information of the contact the contact list
                             DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
                             Contact newContact = (Contact) manager.findFirstValue(Contact.class, "IdContactAndroid", id);
-                            if (newContact == null){
+                            if (newContact == null) {
                                 //le contact n'est pas dans la bdd sqlite donc on l'ajoute
                                 newContact = new Contact();
-                                newContact.name = name;
-                                newContact.phone = pCur.getString(pCur.getColumnIndex(
-                                        ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 newContact.idContactAndroid = Integer.valueOf(id);
                                 newContact.idBusinessCard = -1;
+                                newContact.phone = pCur.getString(pCur.getColumnIndex(
+                                        ContactsContract.CommonDataKinds.Phone.NUMBER));
                                 manager.add(newContact);
+
                                 System.out.println("AJOUT DE ==> " + newContact);
                             }
+
+                            newContact.name = name;
+                            newContact.phone = pCur.getString(pCur.getColumnIndex(
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            manager.add(newContact);
+                            contacts.add(newContact);
                         }
                         pCur.close();
                     }

@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 
 import com.google.gson.Gson;
+import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.sms.Sender;
 
@@ -36,7 +37,12 @@ public class OnClickContactFactory {
 
             builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    Sender.getInstance().send(contact);
+                    BusinessCard businessCard = new BusinessCard(); //tmp
+                    businessCard.company = "unice";
+                    businessCard.id = 9999;
+                    businessCard.name = "fusco anthony";
+                    businessCard.phone = "06 22 75 04 66";
+                    Sender.getInstance().send(businessCard);
                 }
             });
             builder.setNegativeButton("no", new DialogInterface.OnClickListener() {

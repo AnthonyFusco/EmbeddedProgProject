@@ -11,7 +11,8 @@ public class Contact extends AbstractModel {
     @ModelAnnotation(columnName = "IdContactAndroid", sqlType = SqliteTypes.INTEGER)
     public int idContactAndroid;
 
-    @ModelAnnotation(columnName = "Name", sqlType = SqliteTypes.TEXT)
+
+    //@ModelAnnotation(columnName = "Name", sqlType = SqliteTypes.TEXT)
     public String name;
 
     @ModelAnnotation(columnName = "Phone", sqlType = SqliteTypes.TEXT)
@@ -25,8 +26,8 @@ public class Contact extends AbstractModel {
         return "Contact{" +
                 "id=" + id +
                 ", idContactAndroid=" + idContactAndroid +
-                ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +
+               /* ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +*/
                 ", idBusinessCard=" + idBusinessCard +
                 '}';
     }
