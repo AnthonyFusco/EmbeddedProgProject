@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Gestion de la base de donnees
  */
-public class DataBaseManager {
+public abstract class DataBaseManager implements IDatabaseManager {
     private final static int VERSION = 1;
     public static final String DATABASE_NAME = "database.db";
     private SQLiteDatabase database = null;

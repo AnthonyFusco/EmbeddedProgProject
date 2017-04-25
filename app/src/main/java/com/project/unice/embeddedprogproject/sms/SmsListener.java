@@ -15,6 +15,7 @@ import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 /**
@@ -95,7 +96,7 @@ public class SmsListener extends BroadcastReceiver {
         Toast.makeText(context, businessCardSerialized, Toast.LENGTH_SHORT).show();
         Gson gson = new Gson();
         BusinessCard businessCard = gson.fromJson(businessCardSerialized, BusinessCard.class);
-        DataBaseTableManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
+        IDatabaseManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
         manager.add(businessCard);
         //for (IModel model : manager.selectWhere(Contact.class, "Phone", businessCard.phone)) {
         manager.modifyId("IdBusinessCard", businessCard.id, businessCard.phone);

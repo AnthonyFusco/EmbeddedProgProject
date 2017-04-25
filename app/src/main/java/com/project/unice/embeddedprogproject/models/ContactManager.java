@@ -7,6 +7,7 @@ import android.provider.ContactsContract;
 
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class ContactManager implements IContactManager {
                     if (pCur != null) {
                         while (pCur.moveToNext()) {
                             //add the information of the contact the contact list
-                            DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
+                            IDatabaseManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
                             Contact newContact = (Contact) manager.findFirstValue(Contact.class, "IdContactAndroid", id);
                             if (newContact == null) {
                                 //le contact n'est pas dans la bdd sqlite donc on l'ajoute
