@@ -17,6 +17,9 @@ public class BusinessCard extends AbstractModel {
     @ModelAnnotation(columnName = "Company", sqlType = SqliteTypes.TEXT)
     public String company;
 
+    @ModelAnnotation(columnName = "Phone", sqlType = SqliteTypes.TEXT)
+    public String phone;
+
     @Override
     public String toString() {
         return "BusinessCard{" +

@@ -70,18 +70,23 @@ public class ContactManager implements IContactManager {
                             //add the information of the contact the contact list
                             DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
                             Contact newContact = (Contact) manager.findFirstValue(Contact.class, "IdContactAndroid", id);
-                            //if (newContact == null){
-                            //le contact n'est pas dans la bdd sqlite donc on l'ajoute
-                            newContact = new Contact();
+                            if (newContact == null) {
+                                //le contact n'est pas dans la bdd sqlite donc on l'ajoute
+                                newContact = new Contact();
+                                newContact.idContactAndroid = Integer.valueOf(id);
+                                newContact.idBusinessCard = -1;
+                                newContact.phone = pCur.getString(pCur.getColumnIndex(
+                                        ContactsContract.CommonDataKinds.Phone.NUMBER));
+                                manager.add(newContact);
+
+                                System.out.println("AJOUT DE ==> " + newContact);
+                            }
+
                             newContact.name = name;
                             newContact.phone = pCur.getString(pCur.getColumnIndex(
                                     ContactsContract.CommonDataKinds.Phone.NUMBER));
-                            newContact.idContactAndroid = Integer.valueOf(id);
-                            newContact.idBusinessCard = -1;
                             manager.add(newContact);
                             contacts.add(newContact);
-                            System.out.println("AJOUT DE ==> " + newContact);
-                            // }
                         }
                         pCur.close();
                     }

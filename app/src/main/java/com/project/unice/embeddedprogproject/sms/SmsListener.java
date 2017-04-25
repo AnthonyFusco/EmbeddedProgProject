@@ -5,19 +5,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ResolveInfo;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
+import com.google.gson.Gson;
+import com.project.unice.embeddedprogproject.models.BusinessCard;
+import com.project.unice.embeddedprogproject.models.Contact;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 /**
  * Parse a received SMS.
@@ -86,14 +84,22 @@ public class SmsListener extends BroadcastReceiver {
                     Log.e("log>>>", "received business card");
                     int id = smsMessage.getIndexOnIcc();
                     handleReceive(context, id, messageBody);
+                    System.out.println("aaaaa");
                 }
             }
         }
     }
 
     private void handleReceive(Context context, long id, String body) {
-        String contactSerialized = body.substring(body.indexOf(Sender.HEADER));
-        Toast.makeText(context, contactSerialized, Toast.LENGTH_SHORT).show();
+        String businessCardSerialized = body.substring(body.indexOf(Sender.HEADER) + Sender.HEADER.length());
+        Toast.makeText(context, businessCardSerialized, Toast.LENGTH_SHORT).show();
+        Gson gson = new Gson();
+        BusinessCard businessCard = gson.fromJson(businessCardSerialized, BusinessCard.class);
+        DataBaseTableManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
+        manager.add(businessCard);
+        //for (IModel model : manager.selectWhere(Contact.class, "Phone", businessCard.phone)) {
+        manager.modifyId("IdBusinessCard", businessCard.id, businessCard.phone);
+        //}
     }
 
 }
