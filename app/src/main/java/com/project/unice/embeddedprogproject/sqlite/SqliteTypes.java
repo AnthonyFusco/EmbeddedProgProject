@@ -9,5 +9,6 @@ public enum SqliteTypes {
     BLOB,
     REAL,
     TEXT,
-    INTEGER
+    INTEGER,
+    LONG
 }

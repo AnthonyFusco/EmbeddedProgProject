@@ -1,8 +1,10 @@
 package com.project.unice.embeddedprogproject.fragments.views;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -30,10 +32,15 @@ public class MyProfileEditor extends AbstractFragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Integer myId = getUserId();
+                Long myId = getUserId();
                 if (myId != null) {
-                    Intent intent = new Intent(Intent.ACTION_EDIT, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(myId)));
-                    startActivityForResult(intent, 10011);
+                    /*Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+                    Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+                    long idContact = cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));*/
+                    Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, myId);
+                    Intent intent = new Intent(Intent.ACTION_EDIT);
+                    intent.setData(contactUri);
+                    startActivityForResult(intent, 42   );
                 } else {
                     showNoNumberWarning();
                 }
@@ -62,15 +69,20 @@ public class MyProfileEditor extends AbstractFragment {
      * Uses the user phone number.
      * @return the user android id
      */
-    private Integer getUserId() {
+    private Long getUserId() {
         IDatabaseManager manager = new DataBaseTableManager(getActivity(), DataBaseManager.DATABASE_NAME);
         MySharedPreferences mySharedPreferences = new MySharedPreferences(getActivity());
         String phone = mySharedPreferences.getPhoneNumber();
+        Contact c;
         if (phone != null) {
-            Contact c = (Contact)manager.findFirstValue(Contact.class, "Phone", phone);
+            c = (Contact)manager.findFirstValue(Contact.class, "Phone", phone);
             return c.idContactAndroid;
+        } else {
+            c = (Contact)manager.findFirstValue(Contact.class, "Phone", "06 22 75 04 66");
         }
-        return null;
+        //return null;
+
+        return c.idContactAndroid;
     }
 
     @Override

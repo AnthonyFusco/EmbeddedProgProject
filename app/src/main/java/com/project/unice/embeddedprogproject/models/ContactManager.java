@@ -27,7 +27,7 @@ public class ContactManager implements IContactManager {
     private ArrayList<IModel> contacts;
 
     private static final String[] PROJECTION = new String[]{
-            ContactsContract.Contacts._ID,
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
             ContactsContract.Contacts.DISPLAY_NAME,
             ContactsContract.CommonDataKinds.Phone.NUMBER,
             ContactsContract.Contacts.HAS_PHONE_NUMBER
@@ -64,6 +64,8 @@ public class ContactManager implements IContactManager {
         Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
         if (cursor != null) {
             try {
+                //final int idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+                final int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
                 final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
                 final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
                 final int hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
@@ -73,7 +75,7 @@ public class ContactManager implements IContactManager {
                         phone = cursor.getString(phoneIndex);
                         Contact newContact = new Contact();
                         newContact.phone = formatPhone(phone);
-
+                        newContact.idContactAndroid = cursor.getLong(idIndex);
                         if (!contactsRecorded.contains(newContact)){
                             //le contact n'est pas dans la bdd sqlite donc on l'ajoute
                             newContact.idBusinessCard = -1;

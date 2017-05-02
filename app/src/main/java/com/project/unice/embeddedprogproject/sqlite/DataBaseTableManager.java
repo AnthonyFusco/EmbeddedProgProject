@@ -224,6 +224,7 @@ public class DataBaseTableManager extends DataBaseManager {
                 case TEXT: field.set(model, cursor.getString(cursor.getColumnIndex(annotation.columnName()))); break;
                 case BLOB: field.set(model, cursor.getBlob(cursor.getColumnIndex(annotation.columnName()))); break;
                 case INTEGER: field.set(model, cursor.getInt(cursor.getColumnIndex(annotation.columnName()))); break;
+                case LONG: field.set(model, cursor.getLong(cursor.getColumnIndex(annotation.columnName()))); break;
                 case REAL: field.set(model, cursor.getInt(cursor.getColumnIndex(annotation.columnName()))); break;
             }
         }

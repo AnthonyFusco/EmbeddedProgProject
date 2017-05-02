@@ -9,7 +9,7 @@ public class Contact extends AbstractModel {
     public int id;
 
     @ModelAnnotation(columnName = "IdContactAndroid", sqlType = SqliteTypes.INTEGER)
-    public int idContactAndroid;
+    public long idContactAndroid;
 
 
     //@ModelAnnotation(columnName = "Name", sqlType = SqliteTypes.TEXT)
