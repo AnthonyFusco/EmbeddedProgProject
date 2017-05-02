@@ -34,9 +34,9 @@ public class OnClickContactFactory {
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
             String textToSend;
             if (contact.name.isEmpty()) {
-                textToSend = String.format("Send My Business Card to%s ?", contact.phone);
+                textToSend = String.format("Send My Business Card to %s ?", contact.phone);
             } else {
-                textToSend = String.format("Send My Business Card to%s ?", contact.name);
+                textToSend = String.format("Send My Business Card to %s ?", contact.name);
             }
             builder.setMessage(textToSend)
                     .setTitle("");

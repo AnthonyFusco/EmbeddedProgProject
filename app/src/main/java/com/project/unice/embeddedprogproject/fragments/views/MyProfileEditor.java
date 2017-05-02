@@ -34,13 +34,10 @@ public class MyProfileEditor extends AbstractFragment {
             public void onClick(View v) {
                 Long myId = getUserId();
                 if (myId != null) {
-                    /*Uri uri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-                    Cursor cursor = getActivity().getContentResolver().query(uri, null, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
-                    long idContact = cursor.getLong(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID));*/
                     Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, myId);
                     Intent intent = new Intent(Intent.ACTION_EDIT);
                     intent.setData(contactUri);
-                    startActivityForResult(intent, 42   );
+                    startActivityForResult(intent, 42);
                 } else {
                     showNoNumberWarning();
                 }
