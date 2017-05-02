@@ -14,6 +14,7 @@ import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 
 public class MyProfileEditor extends AbstractFragment {
 
@@ -35,7 +36,7 @@ public class MyProfileEditor extends AbstractFragment {
     }
 
     private int getUserId() {
-        DataBaseTableManager manager = new DataBaseTableManager(getActivity(), DataBaseManager.DATABASE_NAME);
+        IDatabaseManager manager = new DataBaseTableManager(getActivity(), DataBaseManager.DATABASE_NAME);
         Contact c = (Contact)manager.findFirstValue(Contact.class, "Phone", "0668728382");
         return c.idContactAndroid;
     }

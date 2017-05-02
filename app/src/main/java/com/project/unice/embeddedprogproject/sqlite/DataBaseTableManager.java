@@ -165,7 +165,7 @@ public class DataBaseTableManager extends DataBaseManager {
 
 
     /**
-     * Select all of the models of one type
+     * Select all of the models of one type.
      * @param classe the type to select
      * @return list of the types
      */
@@ -204,7 +204,7 @@ public class DataBaseTableManager extends DataBaseManager {
     }
 
     /**
-     * Unserialize a field of a model
+     * Unserialize a field of a model.
      * @param model the model target
      * @param field the field target
      * @param cursor the cursor where the data is
