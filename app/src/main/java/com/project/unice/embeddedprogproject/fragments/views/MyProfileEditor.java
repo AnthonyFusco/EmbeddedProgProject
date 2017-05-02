@@ -1,5 +1,7 @@
 package com.project.unice.embeddedprogproject.fragments.views;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.project.unice.embeddedprogproject.MySharedPreferences;
 import com.project.unice.embeddedprogproject.R;
-import com.project.unice.embeddedprogproject.ViewBusinessCardActivity;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
@@ -28,17 +30,47 @@ public class MyProfileEditor extends AbstractFragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int myId = getUserId();
-                Intent intent = new Intent(Intent.ACTION_EDIT, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(myId)));
-                startActivityForResult(intent, 10011);
+                Integer myId = getUserId();
+                if (myId != null) {
+                    Intent intent = new Intent(Intent.ACTION_EDIT, Uri.withAppendedPath(ContactsContract.Contacts.CONTENT_URI, String.valueOf(myId)));
+                    startActivityForResult(intent, 10011);
+                } else {
+                    showNoNumberWarning();
+                }
             }
         });
     }
 
-    private int getUserId() {
+    /**
+     * Inform the user that he needs to add a phone number to continue.
+     */
+    private void showNoNumberWarning() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        String textToSend = "Please add your phone number in Settings to create a Business Card";
+        builder.setMessage(textToSend)
+                .setTitle("");
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    /**
+     * Fetch the android id in the database to open the correct contact in the contact app. <br />
+     * Uses the user phone number.
+     * @return the user android id
+     */
+    private Integer getUserId() {
         IDatabaseManager manager = new DataBaseTableManager(getActivity(), DataBaseManager.DATABASE_NAME);
-        Contact c = (Contact)manager.findFirstValue(Contact.class, "Phone", "0668728382");
-        return c.idContactAndroid;
+        MySharedPreferences mySharedPreferences = new MySharedPreferences(getActivity());
+        String phone = mySharedPreferences.getPhoneNumber();
+        if (phone != null) {
+            Contact c = (Contact)manager.findFirstValue(Contact.class, "Phone", phone);
+            return c.idContactAndroid;
+        }
+        return null;
     }
 
     @Override

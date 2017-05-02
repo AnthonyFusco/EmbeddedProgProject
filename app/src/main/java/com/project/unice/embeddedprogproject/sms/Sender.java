@@ -24,7 +24,6 @@ public class Sender implements ISender{
     }
 
     private void sendMyCard(BusinessCard businessCard, String contactNumber) {
-
         handleSend.sendMyCard(businessCard, contactNumber);
     }
 
