@@ -8,9 +8,12 @@ import android.telephony.PhoneNumberUtils;
 
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -39,8 +42,12 @@ public class ContactManager implements IContactManager {
     @Override
     public List<IModel> getContacts() {
         checkAndroidContactList();
-        //DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
-        //return manager.selectAll(Contact.class);
+        Collections.sort(contacts, new Comparator<IModel>() {
+            @Override
+            public int compare(IModel lhs, IModel rhs) {
+                return ((Contact)lhs).name.compareTo(((Contact)rhs).name);
+            }
+        });
         return new ArrayList<>(contacts);
     }
 
@@ -51,13 +58,12 @@ public class ContactManager implements IContactManager {
      */
     private void checkAndroidContactList() {
         contacts = new ArrayList<>();
-        DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
+        IDatabaseManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
         List<IModel> contactsRecorded = manager.selectAll(Contact.class);
         ContentResolver cr = activity.getContentResolver();
         Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
         if (cursor != null) {
             try {
-                final int contactIdIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
                 final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
                 final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
                 final int hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
@@ -67,17 +73,18 @@ public class ContactManager implements IContactManager {
                         phone = cursor.getString(phoneIndex);
                         Contact newContact = new Contact();
                         newContact.phone = formatPhone(phone);
-                        newContact.name = cursor.getString(displayNameIndex);
+
                         if (!contactsRecorded.contains(newContact)){
                             //le contact n'est pas dans la bdd sqlite donc on l'ajoute
-                            //newContact = new Contact();
-                            //newContact.phone = phone;
-                            // newContact.idContactAndroid = (int) cursor.getLong(contactIdIndex);
                             newContact.idBusinessCard = -1;
                             manager.add(newContact);
                             contactsRecorded.add(newContact);
                             System.out.println("AJOUT DE ==> " + newContact);
                         }
+                        else {
+                            newContact = (Contact) contactsRecorded.get(contactsRecorded.indexOf(newContact));
+                        }
+                        newContact.name = cursor.getString(displayNameIndex);
                         if (!contacts.contains(newContact)) {
                             contacts.add(newContact);
                         }

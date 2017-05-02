@@ -66,15 +66,21 @@ public class DataBaseTableManager extends DataBaseManager {
         }
         close();
     }
-
+/*
     /**
      * modifier un model dans la base de donnees
-     */
+     *
     public void modifyId(String columnAttribute, int newValue, String phoneNumber) {
         Cursor cursor = getDatabase().rawQuery("update Contact set " + columnAttribute + " = " + newValue + " where Phone  = ?", new String[]{String.valueOf(phoneNumber)});
         if (cursor != null) {
             cursor.close();
         }
+    }*/
+
+    @Override
+    public void update(AbstractModel model) {
+        remove(model);
+        add(model);
     }
 
     /**

@@ -26,9 +26,25 @@ public class Contact extends AbstractModel {
         return "Contact{" +
                 "id=" + id +
                 ", idContactAndroid=" + idContactAndroid +
-               /* ", name='" + name + '\'' +
-                ", phone='" + phone + '\'' +*/
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
                 ", idBusinessCard=" + idBusinessCard +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Contact contact = (Contact) o;
+
+        return phone != null ? phone.equals(contact.phone) : contact.phone == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return phone != null ? phone.hashCode() : 0;
     }
 }
