@@ -1,25 +1,29 @@
 package com.project.unice.embeddedprogproject;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
 import com.project.unice.embeddedprogproject.fragments.views.MyProfileEditor;
-import com.project.unice.embeddedprogproject.models.BusinessCard;
-import com.project.unice.embeddedprogproject.models.Contact;
-import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
-import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
-import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String PREFS_NAME = "MyPrefsFile";
+
 
     private ViewPager viewPager;
     private SmsBroadcastReceiver smsBroadcastReceiver;
@@ -41,6 +45,26 @@ public class MainActivity extends AppCompatActivity {
         myToolbar.setTitle(R.string.contact_list);
         setSupportActionBar(myToolbar);
 
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        String userPhone = settings.getString("userPhone", "-1");
+        if (userPhone.equals("-1")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            String textToSend ="Please add your phone number";
+            builder.setMessage(textToSend)
+                    .setTitle("");
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_PHONE);
+            builder.setView(input);
+            builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    String phone = input.getText().toString();
+                    Toast.makeText(MainActivity.this, "number " + phone, Toast.LENGTH_LONG).show();
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+        }
 
        /* DataBaseTableManager manager = new DataBaseTableManager(this, DataBaseManager.DATABASE_NAME);
         BusinessCard card = new BusinessCard();

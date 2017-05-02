@@ -1,8 +1,5 @@
 package com.project.unice.embeddedprogproject.sms;
 
-import android.telephony.SmsManager;
-
-import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
@@ -12,6 +9,7 @@ import com.project.unice.embeddedprogproject.sqlite.IModel;
 public class Sender implements ISender{
     public static final String HEADER = "{BUSINESS_CARD}";
     private static final Sender ourInstance = new Sender();
+    private final HandleSend handleSend = new HandleSend();
 
     public static Sender getInstance() {
         return ourInstance;
@@ -21,18 +19,13 @@ public class Sender implements ISender{
 
     }
 
-    public void send(IModel iModel) {
-        sendMyCard((BusinessCard) iModel);
+    public void send(IModel iModel, String contactNumber) {
+        sendMyCard((BusinessCard) iModel, contactNumber);
     }
 
-    private void sendMyCard(BusinessCard businessCard) {
-        StringBuilder stringBuilder = new StringBuilder();
-        Gson gson = new Gson();
-        String contactSerialized = gson.toJson(businessCard);
-        stringBuilder.append(HEADER).append(contactSerialized);
+    private void sendMyCard(BusinessCard businessCard, String contactNumber) {
 
-        SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(businessCard.phone, null, stringBuilder.toString(), null, null);
+        handleSend.sendMyCard(businessCard, contactNumber);
     }
 
     private void askForCard(IModel iModel) {

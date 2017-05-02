@@ -4,6 +4,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
+import android.telephony.PhoneNumberUtils;
 
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
@@ -11,6 +12,8 @@ import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
 
 /**
  * Implementation of {@link IContactManager} which return the contact list with a possibility of SQL query.
@@ -19,6 +22,14 @@ public class ContactManager implements IContactManager {
 
     private Context activity;
     private ArrayList<IModel> contacts;
+
+    private static final String[] PROJECTION = new String[]{
+            ContactsContract.Contacts._ID,
+            ContactsContract.Contacts.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.Contacts.HAS_PHONE_NUMBER
+    };
+
 
     public ContactManager(Context activity) {
         this.activity = activity;
@@ -40,59 +51,46 @@ public class ContactManager implements IContactManager {
      */
     private void checkAndroidContactList() {
         contacts = new ArrayList<>();
-        //get the contact resolver
+        DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
+        List<IModel> contactsRecorded = manager.selectAll(Contact.class);
         ContentResolver cr = activity.getContentResolver();
-        //Query the contact application for a cursor to the contact lists
-        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
-                null, null, null, null);
-        //create the contact list
-        if (cur != null && cur.getCount() > 0) {
-            //for all the contacts
-            while (cur.moveToNext()) {
-                //get its id
-                String id = cur.getString(
-                        cur.getColumnIndex(ContactsContract.Contacts._ID));
-                //get the name of the contact
-                String name = cur.getString(cur.getColumnIndex(
-                        ContactsContract.Contacts.DISPLAY_NAME));
-                //create the contact object
-                //An other query is required for the phone number
-                if (cur.getInt(cur.getColumnIndex(
-                        ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
-                    Cursor pCur = cr.query(
-                            ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
-                            null,
-                            ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
-                            new String[]{id}, null);
-                    //if the number is not empty
-                    if (pCur != null) {
-                        while (pCur.moveToNext()) {
-                            //add the information of the contact the contact list
-                            DataBaseTableManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
-                            Contact newContact = (Contact) manager.findFirstValue(Contact.class, "IdContactAndroid", id);
-                            if (newContact == null) {
-                                //le contact n'est pas dans la bdd sqlite donc on l'ajoute
-                                newContact = new Contact();
-                                newContact.idContactAndroid = Integer.valueOf(id);
-                                newContact.idBusinessCard = -1;
-                                newContact.phone = pCur.getString(pCur.getColumnIndex(
-                                        ContactsContract.CommonDataKinds.Phone.NUMBER));
-                                manager.add(newContact);
-
-                                System.out.println("AJOUT DE ==> " + newContact);
-                            }
-
-                            newContact.name = name;
-                            newContact.phone = pCur.getString(pCur.getColumnIndex(
-                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
+        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
+        if (cursor != null) {
+            try {
+                final int contactIdIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+                final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                final int hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+                String phone;
+                while (cursor.moveToNext()) {
+                    if (cursor.getInt(hasPhoneIndex) > 0) {
+                        phone = cursor.getString(phoneIndex);
+                        Contact newContact = new Contact();
+                        newContact.phone = formatPhone(phone);
+                        newContact.name = cursor.getString(displayNameIndex);
+                        if (!contactsRecorded.contains(newContact)){
+                            //le contact n'est pas dans la bdd sqlite donc on l'ajoute
+                            //newContact = new Contact();
+                            //newContact.phone = phone;
+                            // newContact.idContactAndroid = (int) cursor.getLong(contactIdIndex);
+                            newContact.idBusinessCard = -1;
                             manager.add(newContact);
+                            contactsRecorded.add(newContact);
+                            System.out.println("AJOUT DE ==> " + newContact);
+                        }
+                        if (!contacts.contains(newContact)) {
                             contacts.add(newContact);
                         }
-                        pCur.close();
                     }
                 }
+            } finally {
+                cursor.close();
             }
-            cur.close();
         }
+    }
+
+    public static String formatPhone(String phone) {
+        String formatted = PhoneNumberUtils.formatNumber(phone, Locale.getDefault().getCountry()).replaceAll("\\+[0-9]+\\s", "0").replaceAll("^00 33 ", "0");
+        return formatted;
     }
 }

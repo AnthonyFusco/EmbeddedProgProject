@@ -4,5 +4,5 @@ import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 public interface ISender {
 
-    public void send(IModel iModel);
+    public void send(IModel iModel, String contactNumber);
 }

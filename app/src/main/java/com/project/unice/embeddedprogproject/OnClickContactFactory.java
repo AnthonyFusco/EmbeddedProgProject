@@ -32,17 +32,24 @@ public class OnClickContactFactory {
             final Contact contact = (Contact) parent.getItemAtPosition(position);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-            builder.setMessage("Send Message ?")
+            String textToSend;
+            if (contact.name.isEmpty()) {
+                textToSend = String.format("Send My Business Card to%s ?", contact.phone);
+            } else {
+                textToSend = String.format("Send My Business Card to%s ?", contact.name);
+            }
+            builder.setMessage(textToSend)
                     .setTitle("");
 
             builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
+                    //todo replace here by user bc
                     BusinessCard businessCard = new BusinessCard(); //tmp
                     businessCard.company = "unice";
-                    businessCard.id = 9999;
                     businessCard.name = "fusco anthony";
-                    businessCard.phone = "06 22 75 04 66";
-                    Sender.getInstance().send(businessCard);
+                    businessCard.phone = "06227504 66";
+
+                    Sender.getInstance().send(businessCard, contact.phone);
                 }
             });
             builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
