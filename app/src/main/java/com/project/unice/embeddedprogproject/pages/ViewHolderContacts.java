@@ -38,14 +38,17 @@ public class ViewHolderContacts implements ViewHolder {
 
     @Override
     public boolean fillView(int position) {
-        nom.setText(contacts.get(position).name);
-        phone.setText(contacts.get(position).phone);
-        if (contacts.get(position).idBusinessCard == -1) {
-            rowLayout.setBackgroundColor(Color.WHITE);
-        } else {
-            rowLayout.setBackgroundColor(Color.LTGRAY);
+        if (position < contacts.size()){
+            nom.setText(contacts.get(position).name);
+            phone.setText(contacts.get(position).phone);
+            if (contacts.get(position).idBusinessCard == -1) {
+                rowLayout.setBackgroundColor(Color.WHITE);
+            } else {
+                rowLayout.setBackgroundColor(Color.LTGRAY);
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
 }

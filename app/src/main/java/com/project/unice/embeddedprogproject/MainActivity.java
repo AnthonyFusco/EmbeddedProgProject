@@ -1,6 +1,11 @@
 package com.project.unice.embeddedprogproject;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -8,10 +13,12 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
 import com.project.unice.embeddedprogproject.fragments.views.MyProfileEditor;
+import com.project.unice.embeddedprogproject.models.Contact;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private Toolbar myToolbar;
+    private ListContacts listContacts;
+
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         smsBroadcastReceiver.enableBroadcastReceiver();
 
         myToolbar = (Toolbar) findViewById(R.id.my_toolbar);
-        change(1);
         myToolbar.setTitle(R.string.contact_list);
         setSupportActionBar(myToolbar);
 
@@ -58,8 +67,8 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(fragmentManager);
 
-        fragmentManager.addFragment(new ListRequests());
-        fragmentManager.addFragment(new ListContacts());
+        listContacts = new ListContacts();
+        fragmentManager.addFragment(listContacts);
         fragmentManager.addFragment(new MyProfileEditor());
         fragmentManager.notifyDataSetChanged();
     }
@@ -74,16 +83,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            /*case R.id.action_requests:
-                change(0);
-                myToolbar.setTitle(getString(R.string.pending_request));
-                return true;*/
             case R.id.action_list_contacts:
-                change(1);
+                change(0);
                 myToolbar.setTitle(R.string.contact_list);
                 return true;
             case R.id.action_myprofile:
-                change(2);
+                change(1);
                 myToolbar.setTitle(R.string.contact_list);
                 return true;
             case R.id.action_settings:
@@ -97,5 +102,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void change(int n) {
         viewPager.setCurrentItem(n, false);
+    }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            boolean type = intent.getBooleanExtra("sms", false);  //get the type of message from MyGcmListenerService 1 - lock or 0 -Unlock
+            if (type) {
+                initFragment();
+            }
+        }
+    };
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(broadcastReceiver, new IntentFilter("NOW"));
     }
 }

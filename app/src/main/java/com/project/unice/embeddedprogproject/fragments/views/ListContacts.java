@@ -31,6 +31,9 @@ public class ListContacts extends AbstractFragment {
     public static final String WITH_BUSINESS_CARD_TITLE = "With Card";
     public static final String WITHOUT_BUSINESS_CARD_TITLE = "Without Card";
     private ContactManager contactManager;
+    private ViewContacts v1;
+    private ViewContacts v2;
+    private ViewContacts v3;
 
     public ListContacts() {
         super("CONTACTS", R.layout.page_list_contacts);
@@ -68,9 +71,13 @@ public class ListContacts extends AbstractFragment {
             }
         }
 
-        fragmentManager.addFragment(new ViewContacts(All_CONTACT_TITLE, contacts));
-        fragmentManager.addFragment(new ViewContacts(WITH_BUSINESS_CARD_TITLE, contactWithCardList));
-        fragmentManager.addFragment(new ViewContacts(WITHOUT_BUSINESS_CARD_TITLE, contactWithoutCardList));
+        v1 = new ViewContacts(All_CONTACT_TITLE, contacts);
+        v2 = new ViewContacts(WITH_BUSINESS_CARD_TITLE, contactWithCardList);
+        v3 = new ViewContacts(WITHOUT_BUSINESS_CARD_TITLE, contactWithoutCardList);
+
+        fragmentManager.addFragment(v1);
+        fragmentManager.addFragment(v2);
+        fragmentManager.addFragment(v3);
         fragmentManager.notifyDataSetChanged();
 
         TabLayout tabLayout = (TabLayout) rootView.findViewById(R.id.tabs);

@@ -1,6 +1,7 @@
 package com.project.unice.embeddedprogproject.fragments.views;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,8 @@ import java.util.List;
  */
 public class ViewContacts extends AbstractFragment {
 
-    private final List<Contact> contacts;
+    private List<Contact> contacts;
+    private ListView listView;
 
     public ViewContacts(String title, List<Contact> contacts) {
         super(title, R.layout.fragment_listcontacts);
@@ -33,7 +35,7 @@ public class ViewContacts extends AbstractFragment {
 
     @Override
     protected void onCreateFragment(ViewGroup rootView, Bundle savedInstanceState) {
-        ListView listView = (ListView)rootView.findViewById(R.id.listView_contacts);
+        listView = (ListView)rootView.findViewById(R.id.listView_contacts);
 
         initListView(savedInstanceState, listView);
 

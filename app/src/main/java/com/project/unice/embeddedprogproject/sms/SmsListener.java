@@ -1,17 +1,20 @@
 package com.project.unice.embeddedprogproject.sms;
 
+import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.provider.Telephony;
+import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.project.unice.embeddedprogproject.MainActivity;
 import com.project.unice.embeddedprogproject.fragments.views.ViewContacts;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.Contact;
@@ -54,6 +57,11 @@ public class SmsListener extends BroadcastReceiver {
             Contact contact = (Contact)model;
             contact.idBusinessCard = businessCard.id;
             manager.update(contact);
+
+            Intent in = new Intent();
+            in.putExtra("sms",true);
+            in.setAction("NOW");
+            LocalBroadcastManager.getInstance(context).sendBroadcast(in);
         }
     }
 
