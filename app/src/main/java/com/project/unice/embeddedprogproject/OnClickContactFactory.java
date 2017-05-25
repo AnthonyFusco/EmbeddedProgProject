@@ -43,13 +43,7 @@ public class OnClickContactFactory {
 
             builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    //todo replace here by user bc
-                    BusinessCard businessCard = new BusinessCard(); //tmp
-                    businessCard.company = "unice";
-                    businessCard.name = "fusco anthony";
-                    businessCard.phone = "06227504 66";
-
-                    Sender.getInstance().send(businessCard, contact.phone);
+                    sendMyCard(contact);
                 }
             });
             builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -65,21 +59,57 @@ public class OnClickContactFactory {
 
     /**
      * onClick action when the card is known.
-     * <p>Show the Card in a specific view</p>
+     * <p>Show the Card in a specific view or send your card</p>
      */
-    private AdapterView.OnItemClickListener onClickShowCard = new AdapterView.OnItemClickListener(){
+    private AdapterView.OnItemClickListener onClickWhenHaveCard = new AdapterView.OnItemClickListener() {
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(final AdapterView<?> parent, final View view, final int position, long id) {
             final Contact contact = (Contact) parent.getItemAtPosition(position);
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
 
-            Intent intent = new Intent(view.getContext(), ViewBusinessCardActivity.class);
-            Gson gson = new Gson();
-            String contactSerialized = gson.toJson(contact);
-            intent.putExtra(ViewBusinessCardActivity.CONTACT_INTENT_CODE, contactSerialized);
+            builder.setMessage("Choose an option")
+                    .setTitle("");
 
-            view.getContext().startActivity(intent);
+            builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    sendMyCard(contact);
+
+                }
+            });
+            builder.setNegativeButton("View", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    final Contact contact = (Contact) parent.getItemAtPosition(position);
+
+                    Intent intent = new Intent(view.getContext(), ViewBusinessCardActivity.class);
+                    Gson gson = new Gson();
+                    String contactSerialized = gson.toJson(contact);
+                    intent.putExtra(ViewBusinessCardActivity.CONTACT_INTENT_CODE, contactSerialized);
+
+                    view.getContext().startActivity(intent);
+                }
+            });
+
+            builder.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // User cancelled the dialog
+                }
+            });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
     };
+
+    private void sendMyCard(Contact contact) {
+        //todo replace here by user bc
+        BusinessCard businessCard = new BusinessCard(); //tmp
+        businessCard.company = "unice";
+        businessCard.name = "fusco anthony";
+        businessCard.phone = "06227504 66";
+
+        Sender.getInstance().send(businessCard, contact.phone);
+    }
 
     private OnClickContactFactory() {
     }
@@ -94,6 +124,6 @@ public class OnClickContactFactory {
         if (contact.idBusinessCard == -1) {
             return onClickNewMessage;
         }
-        return onClickShowCard;
+        return onClickWhenHaveCard;
     }
 }
