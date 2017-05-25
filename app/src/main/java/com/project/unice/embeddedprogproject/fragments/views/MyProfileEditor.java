@@ -22,27 +22,50 @@ import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 
 public class MyProfileEditor extends AbstractFragment {
 
+    private MySharedPreferences mySharedPreferences;
+
+    private static final String[] PROJECTION = new String[]{
+            ContactsContract.CommonDataKinds.Phone.CONTACT_ID,
+            ContactsContract.Contacts.DISPLAY_NAME,
+            ContactsContract.CommonDataKinds.Phone.NUMBER,
+            ContactsContract.Contacts.HAS_PHONE_NUMBER
+    };
+
     public MyProfileEditor() {
         super("MY PROFILE", R.layout.my_profile_editor);
     }
 
     @Override
     protected void onCreateFragment(ViewGroup rootView, Bundle savedInstanceState) {
-        Button edit = (Button)rootView.findViewById(R.id.buttonEditMyProfile);
+        Button edit = (Button) rootView.findViewById(R.id.buttonEditMyProfile);
+
+        mySharedPreferences = new MySharedPreferences(getActivity());
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Long myId = getUserId();
-                if (myId != null) {
+
+                String phone = mySharedPreferences.getPhoneNumber();
+                if (phone == null) {
+                    showNoNumberWarning();
+                    return;
+                }
+                Long myId = getUserId(phone);
+                if (myId != -1) {
                     Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, myId);
                     Intent intent = new Intent(Intent.ACTION_EDIT);
                     intent.setData(contactUri);
+                    intent.putExtra("finishActivityOnSaveCompleted", true);
                     startActivityForResult(intent, 42);
+
                 } else {
-                    showNoNumberWarning();
+                    Intent intent = new Intent(Intent.ACTION_INSERT,
+                            ContactsContract.Contacts.CONTENT_URI);
+                    startActivityForResult(intent, 42);
                 }
             }
         });
+
+
     }
 
     /**
@@ -64,27 +87,84 @@ public class MyProfileEditor extends AbstractFragment {
     /**
      * Fetch the android id in the database to open the correct contact in the contact app. <br />
      * Uses the user phone number.
-     * @return the user android id
+     *
+     * @return the user android id, -1 if not found
      */
-    private Long getUserId() {
+    private Long getUserId(String phone) {
         IDatabaseManager manager = new DataBaseTableManager(getActivity(), DataBaseManager.DATABASE_NAME);
-        MySharedPreferences mySharedPreferences = new MySharedPreferences(getActivity());
-        String phone = mySharedPreferences.getPhoneNumber();
-        Contact c;
+
+        Contact c = new Contact();
+        c.setIdContactAndroid(-1);
         if (phone != null) {
-            c = (Contact)manager.findFirstValue(Contact.class, "Phone", phone);
+            c = (Contact) manager.findFirstValue(Contact.class, "Phone", phone);
+        }
+
+        if (c != null && c.idContactAndroid != null) {
             return c.idContactAndroid;
         } else {
-            c = (Contact)manager.findFirstValue(Contact.class, "Phone", "06 22 75 04 66");
+            return (long) -1;
         }
-        //return null;
 
-        return c.idContactAndroid;
     }
+
+    void fetchConcactData() {
+        Long myId = getUserId(mySharedPreferences.getPhoneNumber());
+        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, myId);
+        Cursor cursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, PROJECTION, null, null, null);
+
+        //assert cursor != null;
+        //cursor.moveToFirst();
+
+        final int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
+        final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+        final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        final int hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+
+        //if (cursor.getInt(hasPhoneIndex) > 0) {
+            while (cursor.moveToNext()) {
+                String number = cursor.getString(phoneIndex);
+                System.out.println(number);
+            }
+       // }
+
+
+        cursor.close();
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        fetchConcactData();
+        //Long myId = getUserId(mySharedPreferences.getPhoneNumber());
+
+        //Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, myId);
+
+        //String[] projection = {ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.Contacts.HAS_PHONE_NUMBER};
+
+        //Cursor cursor = getActivity().getContentResolver().query(contactUri, projection, null, null, null);
+
+        /*Cursor cursor = this.getMyActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
+
+        //assert cursor != null;
+        cursor.moveToFirst();
+
+        final int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
+        final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+        final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+        final int hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+
+        // if (cursor.getInt(hasPhoneIndex) > 0) {
+        while (cursor.moveToNext()) {
+            Long number = cursor.getLong(idIndex);
+            System.out.println(number);
+        }
+        // }
+
+
+        cursor.close();*/
+
 
     }
+
 }

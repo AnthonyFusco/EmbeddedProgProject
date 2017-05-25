@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.text.InputType;
 import android.widget.EditText;
 
+import com.project.unice.embeddedprogproject.models.ContactManager;
+
 public class MySharedPreferences {
     public static final String PREFS_NAME = "MyPrefsFile";
     public static final String USER_PHONE = "userPhone";
@@ -31,10 +33,12 @@ public class MySharedPreferences {
         builder.setView(input);
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                String phone = input.getText().toString();
-                SharedPreferences.Editor editor = settings.edit();
-                editor.putString("userPhone", phone);
-                editor.apply();
+                if (input.getText() != null) {
+                    String phone = ContactManager.formatPhone(input.getText().toString());
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("userPhone", phone);
+                    editor.apply();
+                }
             }
         });
         builder.setNegativeButton("Later", new DialogInterface.OnClickListener() {

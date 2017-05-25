@@ -75,7 +75,7 @@ public class ContactManager implements IContactManager {
                         phone = cursor.getString(phoneIndex);
                         Contact newContact = new Contact();
                         newContact.phone = formatPhone(phone);
-                        newContact.idContactAndroid = cursor.getLong(idIndex);
+                        newContact.setIdContactAndroid(cursor.getLong(idIndex));
                         if (!contactsRecorded.contains(newContact)){
                             //le contact n'est pas dans la bdd sqlite donc on l'ajoute
                             newContact.idBusinessCard = -1;
@@ -99,7 +99,10 @@ public class ContactManager implements IContactManager {
     }
 
     public static String formatPhone(String phone) {
-        String formatted = PhoneNumberUtils.formatNumber(phone, Locale.getDefault().getCountry()).replaceAll("\\+[0-9]+\\s", "0").replaceAll("^00 33 ", "0");
+        String formatted = "";
+        if (!phone.isEmpty()) {
+            formatted = PhoneNumberUtils.formatNumber(phone, Locale.getDefault().getCountry()).replaceAll("\\+[0-9]+\\s", "0").replaceAll("^00 33 ", "0");
+        }
         return formatted;
     }
 }

@@ -8,8 +8,8 @@ public class Contact extends AbstractModel {
     @ModelAnnotation(columnName = "Id", primaryKey = true, sqlType = SqliteTypes.INTEGER)
     public int id;
 
-    @ModelAnnotation(columnName = "IdContactAndroid", sqlType = SqliteTypes.INTEGER)
-    public long idContactAndroid;
+    @ModelAnnotation(columnName = "IdContactAndroid", sqlType = SqliteTypes.LONG)
+    public Long idContactAndroid;
 
 
     //@ModelAnnotation(columnName = "Name", sqlType = SqliteTypes.TEXT)
@@ -46,5 +46,9 @@ public class Contact extends AbstractModel {
     @Override
     public int hashCode() {
         return phone != null ? phone.hashCode() : 0;
+    }
+
+    public void setIdContactAndroid(long idContactAndroid) {
+        this.idContactAndroid = idContactAndroid;
     }
 }
