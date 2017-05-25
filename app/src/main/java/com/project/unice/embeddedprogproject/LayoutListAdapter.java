@@ -54,7 +54,7 @@ public class LayoutListAdapter<T> extends BaseAdapter {
         View view;
         //View Holder pattern ?
         view = inflater.inflate(layout, null);
-        holder.initializeView(view);
+        holder.initializeView(view, position);
         view.setTag(holder);
         holder.fillView(position);
 

@@ -2,7 +2,6 @@ package com.project.unice.embeddedprogproject.pages;
 
 import android.graphics.Color;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -29,7 +28,7 @@ public class ViewHolderContacts implements ViewHolder {
     }
 
     @Override
-    public boolean initializeView(View view) {
+    public boolean initializeView(View view, int position) {
         nom = (TextView) view.findViewById(R.id.textnamecontact);
         phone = (TextView) view.findViewById(R.id.phonecontact);
         rowLayout = (LinearLayout) view.findViewById(R.id.contact_list_row_id);
