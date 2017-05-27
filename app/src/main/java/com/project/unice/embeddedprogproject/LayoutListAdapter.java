@@ -28,7 +28,7 @@ public class LayoutListAdapter<T> extends BaseAdapter {
         this.inflater = inflater;
     }
 
-    public void setListElements(Map<String, List<String>> listElements) {
+    public void setListElements(List<T> listElements) {
         this.listElements = listElements;
     }
 
