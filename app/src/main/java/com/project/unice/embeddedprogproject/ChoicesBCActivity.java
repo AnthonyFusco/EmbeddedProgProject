@@ -28,7 +28,7 @@ public class ChoicesBCActivity extends AppCompatActivity {
         LayoutListAdapter<String> adapter = new LayoutListAdapter<>();
         adapter.setViewHolder(new ViewHolderBCChoice(choices));
         adapter.setInflater(getLayoutInflater());
-        adapter.setListElements(choices);
+        //adapter.setListElements(choices);
         adapter.setLayout(R.layout.choice_list_item);
         listView.setAdapter(adapter);
     }
