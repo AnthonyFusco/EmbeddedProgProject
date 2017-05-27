@@ -19,7 +19,6 @@ public class ViewHolderBCChoice implements ViewHolder {
     private TextView choiceTextKey;
     private TextView choiceTextValue;
     private CheckBox choiceCheck;
-    private LinearLayout rowLayout;
 
 
     public ViewHolderBCChoice(Map<String, List<String>> choices) {
@@ -42,7 +41,6 @@ public class ViewHolderBCChoice implements ViewHolder {
         });
         choiceTextKey = (TextView) view.findViewById(R.id.textViewChoiceBC);
         choiceTextValue = (TextView) view.findViewById(R.id.textViewChoiceBCVal);
-        rowLayout = (LinearLayout) view.findViewById(R.id.contact_list_row_id);
         return true;
     }
 
