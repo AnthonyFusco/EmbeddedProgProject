@@ -3,6 +3,7 @@ package com.project.unice.embeddedprogproject.sms;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.provider.Telephony;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsMessage;
@@ -27,7 +28,7 @@ public class SmsListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
+        /*if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
             for (SmsMessage smsMessage : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
                 String messageBody = smsMessage.getMessageBody();
                 if (messageBody.contains(Sender.HEADER)) {
@@ -36,7 +37,25 @@ public class SmsListener extends BroadcastReceiver {
                     handleReceive(context, messageBody);
                 }
             }
+        }*/
+
+        Bundle bundle = intent.getExtras();
+        if (bundle != null) {
+            Object[] pdus = (Object[])bundle.get("pdus");
+            final SmsMessage[] messages = new SmsMessage[pdus.length];
+            for (int i = 0; i < pdus.length; i++) {
+                messages[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
+            }
+            StringBuffer content = new StringBuffer();
+            if (messages.length > 0) {
+                for (int i = 0; i < messages.length; i++) {
+                    content.append(messages[i].getMessageBody());
+                }
+            }
+            String mySmsText = content.toString();
+            handleReceive(context, mySmsText);
         }
+
     }
 
     private void handleReceive(Context context, String body) {
