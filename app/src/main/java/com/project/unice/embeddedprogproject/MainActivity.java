@@ -103,7 +103,11 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send_sms:
-                sendCardToNumber();
+                if (mySharedPreferences.getBusinessCard() == null) {
+                    Toast.makeText(this, "You need to create your Business Card first !", Toast.LENGTH_LONG).show();
+                } else {
+                    sendCardToNumber();
+                }
                 return true;
             case R.id.action_list_contacts:
                 change(0);
@@ -133,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 if (input.getText() != null && input.getText().length() > 0) {
-                    sendMyCard(input.getText().toString());
+                    BusinessCard card = mySharedPreferences.getBusinessCard();
+                    Sender.getInstance().send(card, input.getText().toString());
                 }
             }
         });
@@ -144,15 +149,6 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-    }
-
-    private void sendMyCard(String phone) {
-        BusinessCard card = mySharedPreferences.getBusinessCard();
-        if (card == null) {
-            Toast.makeText(this, "You need to create your Business Card first !", Toast.LENGTH_LONG).show();
-        } else {
-            Sender.getInstance().send(card, phone);
-        }
     }
 
     private void change(int n) {

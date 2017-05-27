@@ -5,4 +5,6 @@
     <string name="contact_list">Contacts</string>
     <string name="pending_request">Pending Requests</string>
     <string name="settings_string">Settings</string>
+    <string name="visualize_my_business_card">Visualize my Business Card</string>
+    <string name="create_edit_business_card">Create/Edit Business Card</string>
 </resources>
