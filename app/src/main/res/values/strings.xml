@@ -2,7 +2,7 @@
     <string name="app_name">EmbeddedProgProject</string>
     <string name="BUSINESS_CARD">Business Card</string>
     <string name="my_profile">My Profile</string>
-    <string name="contact_list">Contact List</string>
+    <string name="contact_list">Contacts</string>
     <string name="pending_request">Pending Requests</string>
     <string name="settings_string">Settings</string>
 </resources>

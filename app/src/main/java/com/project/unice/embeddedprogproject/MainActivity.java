@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
@@ -93,6 +94,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_send_sms:
+                Toast.makeText(this, "eberberbebr", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.action_list_contacts:
                 change(0);
                 myToolbar.setTitle(R.string.contact_list);

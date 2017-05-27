@@ -1,29 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-   <!-- <item
-        android:id="@+id/action_requests"
+    <item
+        android:id="@+id/action_send_sms"
         android:enabled="true"
+        android:icon="@drawable/ic_action_name"
         android:title="@string/pending_request"
-        android:icon="@drawable/ic_request_black"
-        app:showAsAction="ifRoom" />-->
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_list_contacts"
         android:enabled="true"
         android:icon="@drawable/ic_list_contact_black"
         android:title="@string/contact_list"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_myprofile"
         android:enabled="true"
-        android:title="@string/my_profile"
         android:icon="@drawable/ic_my_profile_black"
-        app:showAsAction="ifRoom" />
+        android:title="@string/my_profile"
+        app:showAsAction="always" />
     <item
         android:id="@+id/action_settings"
         android:enabled="true"
-        android:title="@string/settings_string"
         android:icon="@drawable/ic_settings"
-        app:showAsAction="ifRoom" />
+        android:title="@string/settings_string"
+        app:showAsAction="always" />
 
 </menu>
