@@ -21,6 +21,7 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
     public static final int DATA_QUERY_ID = 0;
     public static final int ADRESS_QUERY_ID = 1;
     private Activity activity;
+    private boolean block;
 
     private static final String[] PROJECTION_DATA =
             new String[]{
@@ -68,6 +69,7 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
         } else {
             activity.getLoaderManager().restartLoader(query, null, this);
         }
+        block = false;
     }
 
     @Override
@@ -105,56 +107,59 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
     @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
-        String phoneId = "Phone";
-        String emailId = "Email";
-        String organizationId = "Organization";
-        String websiteId = "Website";
-        String structuredNameId = "StructuredName";
-        String structuredPostalId = "StructuredPostal";
-        Map<String, List<String>> results = new HashMap<>();
-        List<String> phones = new ArrayList<>();
-        List<String> emails = new ArrayList<>();
-        List<String> organizations = new ArrayList<>();
-        List<String> websites = new ArrayList<>();
-        List<String> structuredNames = new ArrayList<>();
-        List<String> structuredPostals = new ArrayList<>();
-        results.put(phoneId, phones);
-        results.put(emailId, emails);
-        results.put(organizationId, organizations);
-        results.put(websiteId, websites);
-        results.put(structuredNameId, structuredNames);
-        results.put(structuredPostalId, structuredPostals);
-        data.moveToFirst();
-        while (data.moveToNext()) {
-            String type = data.getString(1);
-            switch (type) {
-                case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
-                    results.get(phoneId).add(data.getString(2));
-                    break;
-                case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
-                    results.get(emailId).add(data.getString(2));
-                    break;
-                case ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE:
-                    results.get(organizationId).add(data.getString(2));
-                    break;
-                case ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE:
-                    results.get(websiteId).add(data.getString(2));
-                    break;
-                case ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE:
-                    results.get(structuredNameId).add(data.getString(2));
-                    break;
-                case ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE:
-                    results.get(structuredPostalId).add(data.getString(2));
-                    break;
-                default:
-                    break;
+        if (!block) {
+            String phoneId = "Phone";
+            String emailId = "Email";
+            String organizationId = "Organization";
+            String websiteId = "Website";
+            String structuredNameId = "StructuredName";
+            String structuredPostalId = "StructuredPostal";
+            Map<String, List<String>> results = new HashMap<>();
+            List<String> phones = new ArrayList<>();
+            List<String> emails = new ArrayList<>();
+            List<String> organizations = new ArrayList<>();
+            List<String> websites = new ArrayList<>();
+            List<String> structuredNames = new ArrayList<>();
+            List<String> structuredPostals = new ArrayList<>();
+            results.put(phoneId, phones);
+            results.put(emailId, emails);
+            results.put(organizationId, organizations);
+            results.put(websiteId, websites);
+            results.put(structuredNameId, structuredNames);
+            results.put(structuredPostalId, structuredPostals);
+            data.moveToFirst();
+            while (data.moveToNext()) {
+                String type = data.getString(1);
+                switch (type) {
+                    case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
+                        results.get(phoneId).add(data.getString(2));
+                        break;
+                    case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
+                        results.get(emailId).add(data.getString(2));
+                        break;
+                    case ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE:
+                        results.get(organizationId).add(data.getString(2));
+                        break;
+                    case ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE:
+                        results.get(websiteId).add(data.getString(2));
+                        break;
+                    case ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE:
+                        results.get(structuredNameId).add(data.getString(2));
+                        break;
+                    case ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE:
+                        results.get(structuredPostalId).add(data.getString(2));
+                        break;
+                    default:
+                        break;
+                }
             }
-        }
 
-        Gson gson = new Gson();
-        String mapSerial = gson.toJson(results);
-        Intent intent = new Intent();
-        intent.putExtra("Serial", mapSerial);
+            Gson gson = new Gson();
+            String mapSerial = gson.toJson(results);
+            Intent intent = new Intent();
+            intent.putExtra("Serial", mapSerial);
+            block = true;
+        }
     }
 
     @Override
