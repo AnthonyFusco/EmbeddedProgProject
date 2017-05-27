@@ -7,24 +7,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.provider.ContactsContract.Contacts.Data;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.MySharedPreferences;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.UserContactDatabaseManager;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
-import com.project.unice.embeddedprogproject.models.Contact;
+import com.project.unice.embeddedprogproject.databaseModels.Contact;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
-
-import java.util.List;
-import java.util.Map;
 
 public class MyProfileEditor extends AbstractFragment {
 

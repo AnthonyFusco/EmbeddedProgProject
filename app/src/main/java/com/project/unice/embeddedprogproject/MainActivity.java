@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
@@ -19,18 +18,11 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
-import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
 import com.project.unice.embeddedprogproject.fragments.views.MyProfileEditor;
-import com.project.unice.embeddedprogproject.models.BusinessCard;
-import com.project.unice.embeddedprogproject.models.Contact;
-import com.project.unice.embeddedprogproject.models.ContactManager;
+import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
 import com.project.unice.embeddedprogproject.sms.Sender;
-
-import static com.project.unice.embeddedprogproject.MySharedPreferences.USER_PHONE;
 
 public class MainActivity extends AppCompatActivity {
 

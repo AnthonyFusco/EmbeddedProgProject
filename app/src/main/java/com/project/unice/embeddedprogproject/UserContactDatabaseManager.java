@@ -153,12 +153,13 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
                         break;
                 }
             }
+            block = true;
 
             Gson gson = new Gson();
             String mapSerial = gson.toJson(results);
-            Intent intent = new Intent();
+            Intent intent = new Intent(activity, ChoicesBCActivity.class);
             intent.putExtra("Serial", mapSerial);
-            block = true;
+            activity.startActivity(intent);
         }
     }
 

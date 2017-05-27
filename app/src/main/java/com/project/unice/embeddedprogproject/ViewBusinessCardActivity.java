@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
-import com.project.unice.embeddedprogproject.models.Contact;
+import com.project.unice.embeddedprogproject.databaseModels.Contact;
 
 /**
  * Pretty display of a Business Card.

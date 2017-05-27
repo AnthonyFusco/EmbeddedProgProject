@@ -1,11 +1,8 @@
 package com.project.unice.embeddedprogproject.sms;
 
 import android.content.BroadcastReceiver;
-import android.content.ContentProviderOperation;
-import android.content.ContentProviderResult;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.provider.Telephony;
 import android.support.v4.content.LocalBroadcastManager;
 import android.telephony.SmsMessage;
@@ -13,17 +10,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.project.unice.embeddedprogproject.models.BusinessCard;
-import com.project.unice.embeddedprogproject.models.Contact;
-import com.project.unice.embeddedprogproject.models.ContactManager;
+import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.databaseModels.Contact;
+import com.project.unice.embeddedprogproject.databaseModels.ContactManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
-import android.provider.ContactsContract.Data;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**

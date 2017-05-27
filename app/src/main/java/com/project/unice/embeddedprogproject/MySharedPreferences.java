@@ -8,8 +8,8 @@ import android.text.InputType;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
-import com.project.unice.embeddedprogproject.models.BusinessCard;
-import com.project.unice.embeddedprogproject.models.ContactManager;
+import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.databaseModels.ContactManager;
 
 public class MySharedPreferences {
     public static final String PREFS_NAME = "MyPrefsFile";

@@ -4,9 +4,9 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.project.unice.embeddedprogproject.models.AbstractModel;
-import com.project.unice.embeddedprogproject.models.BusinessCard;
-import com.project.unice.embeddedprogproject.models.Contact;
+import com.project.unice.embeddedprogproject.databaseModels.AbstractModel;
+import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.databaseModels.Contact;
 
 
 /**

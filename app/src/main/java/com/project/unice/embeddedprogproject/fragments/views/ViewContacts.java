@@ -1,7 +1,6 @@
 package com.project.unice.embeddedprogproject.fragments.views;
 
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +11,9 @@ import com.project.unice.embeddedprogproject.LayoutListAdapter;
 import com.project.unice.embeddedprogproject.OnClickContactFactory;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
-import com.project.unice.embeddedprogproject.models.Contact;
+import com.project.unice.embeddedprogproject.databaseModels.Contact;
 import com.project.unice.embeddedprogproject.pages.ViewHolderContacts;
 
-import java.util.Collection;
 import java.util.List;
 
 

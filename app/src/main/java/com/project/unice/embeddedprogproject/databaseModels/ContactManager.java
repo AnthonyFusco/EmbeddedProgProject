@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject.models;
+package com.project.unice.embeddedprogproject.databaseModels;
 
 import android.content.ContentResolver;
 import android.content.Context;
