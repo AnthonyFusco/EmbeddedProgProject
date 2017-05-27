@@ -11,19 +11,22 @@ import com.project.unice.embeddedprogproject.ViewHolder;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ViewHolderBCChoice implements ViewHolder {
 
     private List<ChoiceElement> choices;
-    private TextView choiceText;
+    private TextView choiceTextKey;
+    private TextView choiceTextValue;
     private CheckBox choiceCheck;
-    private LinearLayout rowLayout;
 
 
-    public ViewHolderBCChoice(List<String> choices) {
+    public ViewHolderBCChoice(Map<String, List<String>> choices) {
         this.choices = new ArrayList<>();
-        for (String choice : choices) {
-            this.choices.add(new ChoiceElement(choice, false));
+        for (String key : choices.keySet()) {
+            for (String value : choices.get(key)) {
+                this.choices.add(new ChoiceElement(key, value, false));
+            }
         }
     }
 
@@ -36,15 +39,16 @@ public class ViewHolderBCChoice implements ViewHolder {
                 choices.get(position).checked = isChecked;
             }
         });
-        choiceText = (TextView) view.findViewById(R.id.textViewChoiceBC);
-        rowLayout = (LinearLayout) view.findViewById(R.id.contact_list_row_id);
+        choiceTextKey = (TextView) view.findViewById(R.id.textViewChoiceBC);
+        choiceTextValue = (TextView) view.findViewById(R.id.textViewChoiceBCVal);
         return true;
     }
 
     @Override
     public boolean fillView(int position) {
         if (position < choices.size()){
-            choiceText.setText(choices.get(position).text);
+            choiceTextKey.setText(choices.get(position).property);
+            choiceTextValue.setText(choices.get(position).value);
             choiceCheck.setChecked(choices.get(position).checked);
             return true;
         }
@@ -53,11 +57,13 @@ public class ViewHolderBCChoice implements ViewHolder {
 
     private class ChoiceElement {
         boolean checked;
-        String text;
+        String property;
+        String value;
 
-        public ChoiceElement(String choice, boolean b) {
+        public ChoiceElement(String choice, String value, boolean b) {
             this.checked = b;
-            this.text = choice;
+            this.property = choice;
+            this.value = value;
         }
     }
 }

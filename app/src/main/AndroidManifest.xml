@@ -31,6 +31,12 @@
             android:screenOrientation="landscape">
         </activity>
 
+        <activity
+            android:name=".ChoicesBCActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+        </activity>
+
         <receiver android:name=".sms.SmsListener" android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="1000">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
