@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Personalize adapter of a list.
@@ -27,7 +28,7 @@ public class LayoutListAdapter<T> extends BaseAdapter {
         this.inflater = inflater;
     }
 
-    public void setListElements(List<T> listElements) {
+    public void setListElements(Map<String, List<String>> listElements) {
         this.listElements = listElements;
     }
 
