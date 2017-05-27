@@ -1,10 +1,12 @@
 package com.project.unice.embeddedprogproject;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
@@ -22,13 +24,20 @@ public class OnClickContactFactory {
         return ourInstance;
     }
 
+    private void sendCardAction(Contact contact, Context context) {
+        boolean isSent = sendMyCard(contact, context);
+        if (!isSent) {
+            Toast.makeText(context, "Go to settings to create your Business Card first !", Toast.LENGTH_LONG).show();
+        }
+    }
+
     /**
      * onClick action when the card is not known.
      * <p>Ask the user if he want to send a SMS to the selected Contact to get his Card</p>
      */
     private AdapterView.OnItemClickListener onClickNewMessage = new AdapterView.OnItemClickListener(){
         @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        public void onItemClick(AdapterView<?> parent, final View view, int position, long id) {
             final Contact contact = (Contact) parent.getItemAtPosition(position);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -43,7 +52,7 @@ public class OnClickContactFactory {
 
             builder.setPositiveButton("yes", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    sendMyCard(contact);
+                    sendCardAction(contact, view.getContext());
                 }
             });
             builder.setNegativeButton("no", new DialogInterface.OnClickListener() {
@@ -72,8 +81,7 @@ public class OnClickContactFactory {
 
             builder.setPositiveButton("Send", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    sendMyCard(contact);
-
+                    sendCardAction(contact, view.getContext());
                 }
             });
             builder.setNegativeButton("View", new DialogInterface.OnClickListener() {
@@ -101,14 +109,14 @@ public class OnClickContactFactory {
         }
     };
 
-    private void sendMyCard(Contact contact) {
-        //todo replace here by user bc
-        BusinessCard businessCard = new BusinessCard(); //tmp
-        businessCard.company = "unice";
-        businessCard.name = "fusco anthony";
-        businessCard.phone = "06227504 66";
-
-        Sender.getInstance().send(businessCard, contact.phone);
+    private boolean sendMyCard(Contact contact, Context context) {
+        MySharedPreferences sharedPreferences = new MySharedPreferences(context);
+        BusinessCard card = sharedPreferences.getBusinessCard();
+        if (card == null) {
+            return false;
+        }
+        Sender.getInstance().send(card, contact.phone);
+        return true;
     }
 
     private OnClickContactFactory() {

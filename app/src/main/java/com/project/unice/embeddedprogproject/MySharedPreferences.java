@@ -7,11 +7,14 @@ import android.content.SharedPreferences;
 import android.text.InputType;
 import android.widget.EditText;
 
+import com.google.gson.Gson;
+import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.ContactManager;
 
 public class MySharedPreferences {
     public static final String PREFS_NAME = "MyPrefsFile";
     public static final String USER_PHONE = "userPhone";
+    public static final String USER_BUSINESS_CARD = "businessCard";
     private Context context;
     private SharedPreferences settings;
 
@@ -36,7 +39,7 @@ public class MySharedPreferences {
                 if (input.getText() != null) {
                     String phone = ContactManager.formatPhone(input.getText().toString());
                     SharedPreferences.Editor editor = settings.edit();
-                    editor.putString("userPhone", phone);
+                    editor.putString(USER_PHONE, phone);
                     editor.apply();
                 }
             }
@@ -48,6 +51,11 @@ public class MySharedPreferences {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+        if (getBusinessCard() == null && getPhoneNumber() != null) {
+            BusinessCard card = new BusinessCard();
+            card.phone = getPhoneNumber();
+            saveBusinessCard(card);
+        }
     }
     /**
      *
@@ -66,5 +74,21 @@ public class MySharedPreferences {
             return null;
         }
         return userPhone;
+    }
+
+    public void saveBusinessCard(BusinessCard card) {
+        Gson gson = new Gson();
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(USER_BUSINESS_CARD, gson.toJson(card));
+        editor.apply();
+    }
+
+    public BusinessCard getBusinessCard() {
+        String businessCardSerial = settings.getString(USER_BUSINESS_CARD, "-1");
+        if (businessCardSerial.equals("-1") || businessCardSerial.length() <= 0) {
+            return null;
+        }
+        Gson gson = new Gson();
+        return gson.fromJson(businessCardSerial, BusinessCard.class);
     }
 }
