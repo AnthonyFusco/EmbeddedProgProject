@@ -110,7 +110,7 @@ public class MyProfileEditor extends AbstractFragment {
             UserContactDatabaseManager userContactDatabaseManager = new UserContactDatabaseManager(getActivity(), mySharedPreferences.getPhoneNumber());
             Map<String, List<String>> results = userContactDatabaseManager.startQuery(UserContactDatabaseManager.DATA_QUERY_ID);
             Gson gson = new Gson();
-            String mapSerial = gson.toJson(resultCode);
+            String mapSerial = gson.toJson(results);
             Intent intent = new Intent();
             intent.putExtra("Serial", mapSerial);
             //<3
