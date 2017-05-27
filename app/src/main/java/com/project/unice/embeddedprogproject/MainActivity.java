@@ -30,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar myToolbar;
     private ListContacts listContacts;
 
-    private static final String TAG = "MainActivity";
     private MyProfileEditor myProfileEditor;
 
     @Override

@@ -3,17 +3,13 @@ package com.project.unice.embeddedprogproject;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
-import android.webkit.MimeTypeMap;
 
-import com.project.unice.embeddedprogproject.models.Contact;
-import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
-import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
-import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +21,6 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
     public static final int DATA_QUERY_ID = 0;
     public static final int ADRESS_QUERY_ID = 1;
     private Activity activity;
-    private Map<String, List<String>> results;
 
     private static final String[] PROJECTION_DATA =
             new String[]{
@@ -57,24 +52,27 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
     private static final String SORT_ORDER = ContactsContract.Data.MIMETYPE;
     private static final String SELECTION = ContactsContract.Data.CONTACT_ID + " = ?";
     private String[] mSelectionArgs = {""};
-    private String phone;
+    private long myId;
     private int query;
 
-    public UserContactDatabaseManager(Activity activity, String phone) {
+    public UserContactDatabaseManager(Activity activity, long myId) {
         this.activity = activity;
-        this.phone = phone;
+        this.myId = myId;
     }
 
-    public Map<String, List<String>> startQuery(int query) {
+    public void startQuery(int query) {
         this.query = query;
         // Initializes the loader framework
-        activity.getLoaderManager().initLoader(query, null, this);
-        return results;
+        if (activity.getLoaderManager() == null) {
+            activity.getLoaderManager().initLoader(query, null, this);
+        } else {
+            activity.getLoaderManager().restartLoader(query, null, this);
+        }
     }
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        mSelectionArgs[0] = String.valueOf(getUserId(phone));
+        mSelectionArgs[0] = String.valueOf(myId);
 
         CursorLoader dataLoader = new CursorLoader(
                 activity,
@@ -113,7 +111,7 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
         String websiteId = "Website";
         String structuredNameId = "StructuredName";
         String structuredPostalId = "StructuredPostal";
-        results = new HashMap<>();
+        Map<String, List<String>> results = new HashMap<>();
         List<String> phones = new ArrayList<>();
         List<String> emails = new ArrayList<>();
         List<String> organizations = new ArrayList<>();
@@ -126,6 +124,7 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
         results.put(websiteId, websites);
         results.put(structuredNameId, structuredNames);
         results.put(structuredPostalId, structuredPostals);
+        data.moveToFirst();
         while (data.moveToNext()) {
             String type = data.getString(1);
             switch (type) {
@@ -151,33 +150,15 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
                     break;
             }
         }
+
+        Gson gson = new Gson();
+        String mapSerial = gson.toJson(results);
+        Intent intent = new Intent();
+        intent.putExtra("Serial", mapSerial);
     }
 
     @Override
     public void onLoaderReset(Loader<Cursor> loader) {
-
-    }
-
-    /**
-     * Fetch the android id in the database to open the correct contact in the contact app. <br />
-     * Uses the user phone number.
-     *
-     * @return the user android id, -1 if not found
-     */
-    private Long getUserId(String phone) {
-        IDatabaseManager manager = new DataBaseTableManager(activity, DataBaseManager.DATABASE_NAME);
-
-        Contact c = new Contact();
-        c.setIdContactAndroid(-1);
-        if (phone != null) {
-            c = (Contact) manager.findFirstValue(Contact.class, "Phone", phone);
-        }
-
-        if (c != null && c.idContactAndroid != null) {
-            return c.idContactAndroid;
-        } else {
-            return (long) -1;
-        }
 
     }
 }

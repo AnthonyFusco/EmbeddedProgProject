@@ -11,6 +11,7 @@ import android.provider.ContactsContract.Contacts.Data;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.MySharedPreferences;
@@ -54,11 +55,10 @@ public class MyProfileEditor extends AbstractFragment {
                     intent.setData(contactUri);
                     intent.putExtra("finishActivityOnSaveCompleted", true);
                     startActivityForResult(intent, 42);
-
                 } else {
-                    Intent intent = new Intent(Intent.ACTION_INSERT,
-                            ContactsContract.Contacts.CONTENT_URI);
-                    startActivityForResult(intent, 42);
+                    Toast.makeText(getActivity(),
+                            String.format("You need an existing contact with the number %s" +
+                                    " to create a Business Card", phone), Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -107,13 +107,12 @@ public class MyProfileEditor extends AbstractFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 42) {
-            UserContactDatabaseManager userContactDatabaseManager = new UserContactDatabaseManager(getActivity(), mySharedPreferences.getPhoneNumber());
-            Map<String, List<String>> results = userContactDatabaseManager.startQuery(UserContactDatabaseManager.DATA_QUERY_ID);
-            Gson gson = new Gson();
-            String mapSerial = gson.toJson(results);
-            Intent intent = new Intent();
-            intent.putExtra("Serial", mapSerial);
-            //<3
+            Long userId = getUserId(mySharedPreferences.getPhoneNumber());
+            if (userId == -1) {
+                return;
+            }
+            UserContactDatabaseManager userContactDatabaseManager = new UserContactDatabaseManager(getActivity(), userId);
+            userContactDatabaseManager.startQuery(UserContactDatabaseManager.DATA_QUERY_ID);
         }
     }
 
