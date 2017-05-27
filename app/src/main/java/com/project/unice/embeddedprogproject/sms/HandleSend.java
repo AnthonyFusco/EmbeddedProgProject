@@ -5,6 +5,8 @@ import android.telephony.SmsManager;
 import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
 
+import java.util.ArrayList;
+
 public class HandleSend {
     public HandleSend() {
     }
@@ -16,6 +18,8 @@ public class HandleSend {
         stringBuilder.append(Sender.HEADER).append(contactSerialized);
 
         SmsManager smsManager = SmsManager.getDefault();
-        smsManager.sendTextMessage(contactNumber, null, stringBuilder.toString(), null, null);
+
+        ArrayList<String> parts = smsManager.divideMessage(stringBuilder.toString());
+        smsManager.sendMultipartTextMessage(contactNumber, null, parts, null, null);
     }
 }
