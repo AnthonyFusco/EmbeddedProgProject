@@ -6,13 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
 import com.project.unice.embeddedprogproject.databaseModels.Contact;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
+import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 
 /**
  * Pretty display of a Business Card.
  */
 public class ViewBusinessCardActivity extends AppCompatActivity {
     public static final String CONTACT_INTENT_CODE = "contact";
+    private BusinessCard card;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +29,8 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         if (contactSerialized != null) {
             Gson gson = new Gson();
             Contact contact = gson.fromJson(contactSerialized, Contact.class);
+            IDatabaseManager manager = new DataBaseTableManager(getApplicationContext(), DataBaseManager.DATABASE_NAME);
+            card = (BusinessCard) manager.findFirstValue(BusinessCard.class, "id", contact.idBusinessCard);
             fillCard(contact);
         }
     }

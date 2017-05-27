@@ -14,18 +14,19 @@ public class BusinessCard extends AbstractModel {
     @ModelAnnotation(columnName = "Name", sqlType = SqliteTypes.TEXT)
     public String name;
 
-    @ModelAnnotation(columnName = "Company", sqlType = SqliteTypes.TEXT)
-    public String company;
-
     @ModelAnnotation(columnName = "Phone", sqlType = SqliteTypes.TEXT)
     public String phone;
+
+    @ModelAnnotation(columnName = "Contains", sqlType = SqliteTypes.TEXT)
+    public String contains;
 
     @Override
     public String toString() {
         return "BusinessCard{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", company='" + company + '\'' +
+                ", phone='" + phone + '\'' +
+                ", contains='" + contains + '\'' +
                 '}';
     }
 }

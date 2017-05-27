@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
 import com.project.unice.embeddedprogproject.pages.ChoiceElement;
 import com.project.unice.embeddedprogproject.pages.ViewHolderBCChoice;
 
@@ -58,6 +59,18 @@ public class ChoicesBCActivity extends AppCompatActivity {
             }
         }
 
-        System.out.println("ok");
+        Map<String, List<String>> map = new HashMap<>();
+        for (ChoiceElement selector : selectors) {
+            if (!map.containsKey(selector.property)) {
+                map.put(selector.property, new ArrayList<String>());
+            }
+            map.get(selector.property).add(selector.value);
+        }
+
+        BusinessCard card = new BusinessCard();
+        card.contains = new Gson().toJson(map);
+
+        MySharedPreferences preferences = new MySharedPreferences(getApplicationContext());
+        preferences.saveBusinessCard(card);
     }
 }

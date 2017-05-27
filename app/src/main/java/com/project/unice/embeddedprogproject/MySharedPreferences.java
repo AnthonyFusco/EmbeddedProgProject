@@ -77,6 +77,7 @@ public class MySharedPreferences {
     }
 
     public void saveBusinessCard(BusinessCard card) {
+        card.phone = getPhoneNumber();
         Gson gson = new Gson();
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(USER_BUSINESS_CARD, gson.toJson(card));
