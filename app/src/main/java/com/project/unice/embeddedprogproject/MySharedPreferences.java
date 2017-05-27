@@ -33,6 +33,10 @@ public class MySharedPreferences {
                 .setTitle("");
         final EditText input = new EditText(context);
         input.setInputType(InputType.TYPE_CLASS_PHONE);
+        String previousPhone = getPhoneNumber();
+        if (previousPhone != null) {
+            input.setText(previousPhone);
+        }
         builder.setView(input);
         builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -52,6 +56,7 @@ public class MySharedPreferences {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     /**
      *
      * If the user number isn't registered, prompt him to add it.

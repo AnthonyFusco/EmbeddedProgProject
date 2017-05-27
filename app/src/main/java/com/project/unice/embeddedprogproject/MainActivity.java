@@ -1,17 +1,22 @@
 package com.project.unice.embeddedprogproject;
 
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -22,6 +27,10 @@ import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
 import com.project.unice.embeddedprogproject.fragments.views.MyProfileEditor;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.Contact;
+import com.project.unice.embeddedprogproject.models.ContactManager;
+import com.project.unice.embeddedprogproject.sms.Sender;
+
+import static com.project.unice.embeddedprogproject.MySharedPreferences.USER_PHONE;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,7 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private Toolbar myToolbar;
-    private ListContacts listContacts;
 
     private MyProfileEditor myProfileEditor;
 
@@ -77,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.container);
         viewPager.setAdapter(fragmentManager);
 
-        listContacts = new ListContacts();
+        ListContacts listContacts = new ListContacts();
         myProfileEditor = new MyProfileEditor();
         fragmentManager.addFragment(listContacts);
         fragmentManager.addFragment(myProfileEditor);
@@ -95,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_send_sms:
-                Toast.makeText(this, "eberberbebr", Toast.LENGTH_SHORT).show();
+                sendCardToNumber();
                 return true;
             case R.id.action_list_contacts:
                 change(0);
@@ -111,6 +119,39 @@ public class MainActivity extends AppCompatActivity {
             default:
                 myToolbar.setTitle(R.string.BUSINESS_CARD);
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void sendCardToNumber() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(viewPager.getContext());
+        String textToSend = "To what phone number do you want to send your card ?";
+        builder.setMessage(textToSend)
+                .setTitle("");
+        final EditText input = new EditText(viewPager.getContext());
+        input.setInputType(InputType.TYPE_CLASS_PHONE);
+        builder.setView(input);
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                if (input.getText() != null && input.getText().length() > 0) {
+                    sendMyCard(input.getText().toString());
+                }
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void sendMyCard(String phone) {
+        BusinessCard card = mySharedPreferences.getBusinessCard();
+        if (card == null) {
+            Toast.makeText(this, "You need to create your Business Card first !", Toast.LENGTH_LONG).show();
+        } else {
+            Sender.getInstance().send(card, phone);
         }
     }
 
