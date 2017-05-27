@@ -21,13 +21,8 @@ public class ViewHolderBCChoice implements ViewHolder {
     private CheckBox choiceCheck;
 
 
-    public ViewHolderBCChoice(Map<String, List<String>> choices) {
-        this.choices = new ArrayList<>();
-        for (String key : choices.keySet()) {
-            for (String value : choices.get(key)) {
-                this.choices.add(new ChoiceElement(key, value, false));
-            }
-        }
+    public ViewHolderBCChoice(List<ChoiceElement> choices) {
+        this.choices = choices;
     }
 
     @Override
@@ -53,17 +48,5 @@ public class ViewHolderBCChoice implements ViewHolder {
             return true;
         }
         return false;
-    }
-
-    private class ChoiceElement {
-        boolean checked;
-        String property;
-        String value;
-
-        public ChoiceElement(String choice, String value, boolean b) {
-            this.checked = b;
-            this.property = choice;
-            this.value = value;
-        }
     }
 }

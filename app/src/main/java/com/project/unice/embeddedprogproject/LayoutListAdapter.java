@@ -5,6 +5,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.project.unice.embeddedprogproject.pages.ChoiceElement;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -64,5 +67,9 @@ public class LayoutListAdapter<T> extends BaseAdapter {
 
     public void setViewHolder(ViewHolder viewHolder) {
         this.holder = viewHolder;
+    }
+
+    public List<T> getListElements() {
+        return listElements;
     }
 }

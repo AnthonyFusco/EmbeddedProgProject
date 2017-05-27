@@ -2,10 +2,16 @@ package com.project.unice.embeddedprogproject;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import com.project.unice.embeddedprogproject.pages.ChoiceElement;
 import com.project.unice.embeddedprogproject.pages.ViewHolderBCChoice;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,17 +25,39 @@ public class ChoicesBCActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choices);
 
-        //TODO initialize the list with the data in the intent
-        choices = new HashMap<>();
+        String extra = getIntent().getStringExtra("Serial");
+        Type type = new TypeToken<Map<String, List<String>>>(){}.getType();
+        choices = new Gson().fromJson(extra, type);
 
         ListView listView = (ListView)findViewById(R.id.listViewChoices);
 
 
-        LayoutListAdapter<String> adapter = new LayoutListAdapter<>();
-        adapter.setViewHolder(new ViewHolderBCChoice(choices));
+        LayoutListAdapter<ChoiceElement> adapter = new LayoutListAdapter<>();
+        List<ChoiceElement> lst = new ArrayList<>();
+        for (String key : choices.keySet()) {
+            for (String value : choices.get(key)) {
+                lst.add(new ChoiceElement(key, value, false));
+            }
+        }
+        adapter.setViewHolder(new ViewHolderBCChoice(lst));
         adapter.setInflater(getLayoutInflater());
-        //adapter.setListElements(choices);
+
+        adapter.setListElements(lst);
         adapter.setLayout(R.layout.choice_list_item);
         listView.setAdapter(adapter);
+    }
+
+    public void createCard(View view){
+        ListView listView = (ListView)findViewById(R.id.listViewChoices);
+        LayoutListAdapter<ChoiceElement> adapter = (LayoutListAdapter<ChoiceElement>) listView.getAdapter();
+
+        List<ChoiceElement> selectors = new ArrayList<>();
+        for (ChoiceElement choiceElement : adapter.getListElements()) {
+            if (choiceElement.checked){
+                selectors.add(choiceElement);
+            }
+        }
+
+        System.out.println("ok");
     }
 }
