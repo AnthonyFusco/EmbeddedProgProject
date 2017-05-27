@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.google.gson.Gson;
+import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private ListContacts listContacts;
 
     private static final String TAG = "MainActivity";
+    private MyProfileEditor myProfileEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +70,9 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(fragmentManager);
 
         listContacts = new ListContacts();
+        myProfileEditor = new MyProfileEditor();
         fragmentManager.addFragment(listContacts);
-        fragmentManager.addFragment(new MyProfileEditor());
+        fragmentManager.addFragment(myProfileEditor);
         fragmentManager.notifyDataSetChanged();
     }
 
@@ -118,5 +121,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume(){
         super.onResume();
         LocalBroadcastManager.getInstance(MainActivity.this).registerReceiver(broadcastReceiver, new IntentFilter("NOW"));
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        myProfileEditor.onActivityResult(requestCode, resultCode, data);
     }
 }

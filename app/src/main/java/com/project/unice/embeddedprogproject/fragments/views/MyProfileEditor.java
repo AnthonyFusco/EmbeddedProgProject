@@ -1,6 +1,7 @@
 package com.project.unice.embeddedprogproject.fragments.views;
 
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,9 +17,14 @@ import com.project.unice.embeddedprogproject.MySharedPreferences;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.models.Contact;
+import com.project.unice.embeddedprogproject.models.ContactManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
+import com.project.unice.embeddedprogproject.sqlite.IModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MyProfileEditor extends AbstractFragment {
 
@@ -43,6 +49,7 @@ public class MyProfileEditor extends AbstractFragment {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //fetchConcactData();
 
                 String phone = mySharedPreferences.getPhoneNumber();
                 if (phone == null) {
@@ -107,28 +114,56 @@ public class MyProfileEditor extends AbstractFragment {
 
     }
 
+
     void fetchConcactData() {
         Long myId = getUserId(mySharedPreferences.getPhoneNumber());
-        Uri contactUri = ContentUris.withAppendedId(ContactsContract.Contacts.CONTENT_URI, myId);
-        Cursor cursor = getActivity().getContentResolver().query(ContactsContract.Contacts.CONTENT_URI, PROJECTION, null, null, null);
+        List<Contact> contacts = new ArrayList<>();
+        //IDatabaseManager manager = new DataBaseTableManager(getActivity(), DataBaseManager.DATABASE_NAME);
+        //List<IModel> contactsRecorded = manager.selectAll(Contact.class);
+        ContentResolver cr = getActivity().getContentResolver();
+        Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
+        if (cursor != null) {
+            try {
+                final int id = cursor.getColumnIndex(ContactsContract.Contacts._ID);
+                final int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
+                final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
+                final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                final int hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
+                //final int test = cursor.getColumnIndex(ContactsContract.RawContacts.ACCOUNT_NAME);
+                String phone;
+                while (cursor.moveToNext()) {
+                    if (cursor.getInt(hasPhoneIndex) > 0) {
+                        phone = cursor.getString(phoneIndex);
+                        Contact newContact = new Contact();
+                        newContact.phone = phone;
+                        newContact.setIdContactAndroid(cursor.getLong(idIndex));
+                        System.out.println("AJOUT DE ==> " + newContact);
+                        contacts.add(newContact);
+                        Cursor c = getActivity().getContentResolver().query(
+                                ContactsContract.RawContacts.CONTENT_URI,
+                                new String[] { ContactsContract.RawContacts.CONTACT_ID, ContactsContract.RawContacts.DISPLAY_NAME_PRIMARY, ContactsContract.RawContacts.ACCOUNT_TYPE },
+                                ContactsContract.RawContacts.CONTACT_ID + "= ?",
+                                new String[] { ""+idIndex },
+                                null);
 
-        //assert cursor != null;
-        //cursor.moveToFirst();
-
-        final int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
-        final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
-        final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-        final int hasPhoneIndex = cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER);
-
-        //if (cursor.getInt(hasPhoneIndex) > 0) {
-            while (cursor.moveToNext()) {
-                String number = cursor.getString(phoneIndex);
-                System.out.println(number);
+                        ArrayList<String> contactList = new ArrayList<>();
+                        int contactNameColumn = c.getColumnIndex(ContactsContract.RawContacts.ACCOUNT_TYPE);
+                        while (c.moveToNext())
+                        {
+                            // You can also read RawContacts.CONTACT_ID to read the
+                            // ContactsContract.Contacts table or any of the other related ones.
+                            contactList.add(c.getString(contactNameColumn));
+                        }
+                        c.close();
+                        for (String s : contactList) {
+                            System.out.println(s);
+                        }
+                    }
+                }
+            } finally {
+                cursor.close();
             }
-       // }
-
-
-        cursor.close();
+        }
     }
 
 
