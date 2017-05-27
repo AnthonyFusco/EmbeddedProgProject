@@ -18,21 +18,14 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/textViewFirstName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="FirstnameOwner"
-        android:layout_below="@+id/textViewName"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/textViewName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="NameOwner"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/textViewAddressSociety"
+        android:layout_marginTop="55dp"
+        android:layout_below="@+id/textViewEmail"
         android:layout_alignParentStart="true" />
 
     <TextView
@@ -40,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="societyAddress"
+        android:layout_marginTop="34dp"
         android:layout_below="@+id/textViewSociety"
         android:layout_alignParentStart="true" />
 
@@ -47,17 +41,17 @@
         android:id="@+id/textViewEmail"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:text="emailOwner"
-        android:layout_below="@+id/textViewFirstName"
+        android:layout_marginTop="45dp"
+        android:layout_below="@+id/textViewAddressSociety"
         android:layout_alignParentStart="true" />
 
     <TextView
         android:id="@+id/textViewPhone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="56dp"
         android:text="emailOwner"
-        android:layout_below="@+id/textViewEmail"
+        android:layout_below="@+id/textViewName"
         android:layout_alignParentStart="true" />
 </RelativeLayout>
