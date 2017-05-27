@@ -19,7 +19,7 @@ import java.util.Map;
 public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks<Cursor> {
 
     public static final int DATA_QUERY_ID = 0;
-    public static final int ADRESS_QUERY_ID = 1;
+    public static final int ADDRESS_QUERY_ID = 1;
     private Activity activity;
     private boolean block;
 
@@ -97,7 +97,7 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
         switch (query) {
             case DATA_QUERY_ID:
                 return dataLoader;
-            case ADRESS_QUERY_ID:
+            case ADDRESS_QUERY_ID:
                 return addressLoader;
             default:
                 return dataLoader;

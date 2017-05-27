@@ -33,11 +33,9 @@ public class ContactManager implements IContactManager {
             ContactsContract.Contacts.HAS_PHONE_NUMBER
     };
 
-
     public ContactManager(Context activity) {
         this.activity = activity;
     }
-
 
     @Override
     public List<IModel> getContacts() {
@@ -45,6 +43,9 @@ public class ContactManager implements IContactManager {
         Collections.sort(contacts, new Comparator<IModel>() {
             @Override
             public int compare(IModel lhs, IModel rhs) {
+                if (((Contact)lhs).name == null || ((Contact)rhs).name == null) {
+                    return 0;
+                }
                 return ((Contact)lhs).name.compareTo(((Contact)rhs).name);
             }
         });
@@ -62,9 +63,12 @@ public class ContactManager implements IContactManager {
         List<IModel> contactsRecorded = manager.selectAll(Contact.class);
         ContentResolver cr = activity.getContentResolver();
         Cursor cursor = cr.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, PROJECTION, null, null, null);
+        for (IModel model : contactsRecorded) {
+            Contact contact = ((Contact) model);
+            contacts.add(contact);
+        }
         if (cursor != null) {
             try {
-                //final int idIndex = cursor.getColumnIndex(ContactsContract.Contacts._ID);ContactsContract.CommonDataKinds.Phone.CONTACT_ID
                 final int idIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
                 final int displayNameIndex = cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME);
                 final int phoneIndex = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
@@ -79,7 +83,10 @@ public class ContactManager implements IContactManager {
                         if (!contactsRecorded.contains(newContact)){
                             //le contact n'est pas dans la bdd sqlite donc on l'ajoute
                             newContact.idBusinessCard = -1;
+                            String nameSave = newContact.name;
+                            newContact.name = null; //so ugly
                             manager.add(newContact);
+                            newContact.name = nameSave;
                             contactsRecorded.add(newContact);
                             System.out.println("AJOUT DE ==> " + newContact);
                         }

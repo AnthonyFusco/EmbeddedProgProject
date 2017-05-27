@@ -11,8 +11,7 @@ public class Contact extends AbstractModel {
     @ModelAnnotation(columnName = "IdContactAndroid", sqlType = SqliteTypes.LONG)
     public Long idContactAndroid;
 
-
-    //@ModelAnnotation(columnName = "Name", sqlType = SqliteTypes.TEXT)
+    @ModelAnnotation(columnName = "Name", sqlType = SqliteTypes.TEXT)
     public String name;
 
     @ModelAnnotation(columnName = "Phone", sqlType = SqliteTypes.TEXT)

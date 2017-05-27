@@ -51,11 +51,6 @@ public class MySharedPreferences {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-        if (getBusinessCard() == null && getPhoneNumber() != null) {
-            BusinessCard card = new BusinessCard();
-            card.phone = getPhoneNumber();
-            saveBusinessCard(card);
-        }
     }
     /**
      *

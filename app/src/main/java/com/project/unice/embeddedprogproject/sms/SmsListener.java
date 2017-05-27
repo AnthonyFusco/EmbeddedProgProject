@@ -1,21 +1,18 @@
 package com.project.unice.embeddedprogproject.sms;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
-import android.content.ContentValues;
+import android.content.ContentProviderOperation;
+import android.content.ContentProviderResult;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.provider.ContactsContract;
 import android.provider.Telephony;
 import android.support.v4.content.LocalBroadcastManager;
-import android.telephony.PhoneNumberUtils;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.project.unice.embeddedprogproject.MainActivity;
-import com.project.unice.embeddedprogproject.fragments.views.ViewContacts;
 import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.Contact;
 import com.project.unice.embeddedprogproject.models.ContactManager;
@@ -24,7 +21,10 @@ import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
-import java.util.Locale;
+import android.provider.ContactsContract.Data;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Parse a received SMS.
@@ -52,16 +52,32 @@ public class SmsListener extends BroadcastReceiver {
         BusinessCard businessCard = gson.fromJson(businessCardSerialized, BusinessCard.class);
         IDatabaseManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
         manager.add(businessCard);
-        for (IModel model : manager.selectWhere(Contact.class, "Phone", ContactManager.formatPhone(businessCard.phone))) {
-            System.out.println("received : " + ContactManager.formatPhone(businessCard.phone));
-            Contact contact = (Contact)model;
+        String phoneFormatted = ContactManager.formatPhone(businessCard.phone);
+        List<IModel> models = manager.selectWhere(Contact.class, "Phone", phoneFormatted);
+        for (IModel model : models) {
+            System.out.println("received : " + phoneFormatted);
+            Contact contact = (Contact) model;
             contact.idBusinessCard = businessCard.id;
             manager.update(contact);
 
             Intent in = new Intent();
-            in.putExtra("sms",true);
+            in.putExtra("sms", true);
             in.setAction("NOW");
             LocalBroadcastManager.getInstance(context).sendBroadcast(in);
+        }
+
+        if (models.isEmpty()) { //tentative d'ajout de contact
+            Contact newContact = new Contact();
+            newContact.phone = phoneFormatted;
+            newContact.name = businessCard.name;
+            newContact.idBusinessCard = businessCard.id;
+            manager.add(newContact);
+
+            Intent in = new Intent();
+            in.putExtra("sms", true);
+            in.setAction("NOW");
+            LocalBroadcastManager.getInstance(context).sendBroadcast(in);
+
         }
     }
 

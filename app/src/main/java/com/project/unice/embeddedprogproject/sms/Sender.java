@@ -27,7 +27,4 @@ public class Sender implements ISender{
         handleSend.sendMyCard(businessCard, contactNumber);
     }
 
-    private void askForCard(IModel iModel) {
-
-    }
 }

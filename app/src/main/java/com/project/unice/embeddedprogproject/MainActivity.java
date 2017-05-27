@@ -19,6 +19,7 @@ import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.fragments.views.ListRequests;
 import com.project.unice.embeddedprogproject.fragments.views.MyProfileEditor;
+import com.project.unice.embeddedprogproject.models.BusinessCard;
 import com.project.unice.embeddedprogproject.models.Contact;
 
 public class MainActivity extends AppCompatActivity {
@@ -50,6 +51,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
 
         mySharedPreferences.askForPhoneNumberIfNotSaved();
+
+        /*BusinessCard bc = new BusinessCard();
+        bc.phone = "4444";
+        bc.name = "aaaa";
+        bc.company = "toto";
+        mySharedPreferences.saveBusinessCard(bc);*/
+
     }
 
 
