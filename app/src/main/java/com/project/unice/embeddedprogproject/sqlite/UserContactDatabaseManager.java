@@ -109,12 +109,12 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         if (!block) {
-            String phoneId = "Phone";
+            String phoneId = "Phone Number";
             String emailId = "Email";
             String organizationId = "Organization";
             String websiteId = "Website";
-            String structuredNameId = "StructuredName";
-            String structuredPostalId = "StructuredPostal";
+            String structuredNameId = "Name";
+            String structuredPostalId = "Address";
             Map<String, List<String>> results = new HashMap<>();
             List<String> phones = new ArrayList<>();
             List<String> emails = new ArrayList<>();
@@ -135,10 +135,10 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
                     case ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE:
                         results.get(phoneId).add(data.getString(2));
                         break;
-                    case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
-                        //todo not showing
+                    //can't seem to get it that way
+                    /*case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
                         results.get(emailId).add(data.getString(2));
-                        break;
+                        break;*/
                     case ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE:
                         results.get(organizationId).add(data.getString(2));
                         break;
@@ -155,6 +155,9 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
                         break;
                 }
             }
+
+            getEmail(emailId, results);
+
             block = true;
 
             Gson gson = new Gson();
@@ -163,6 +166,28 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
             intent.putExtra("Serial", mapSerial);
             activity.startActivity(intent);
         }
+    }
+
+    /**
+     * Query the email database and add them to the map.<br />
+     * Strangely if there was only one email in the contact, the previous query would not see it.
+     * @param emailId the key of the map
+     * @param results the map itself
+     */
+    private void getEmail(String emailId, Map<String, List<String>> results) {
+        Cursor emailCur = activity.getContentResolver().query(
+                ContactsContract.CommonDataKinds.Email.CONTENT_URI,
+                null,
+                ContactsContract.CommonDataKinds.Email.CONTACT_ID + " = ?",
+                new String[]{String.valueOf(myId)}, null);
+        assert emailCur != null;
+        while (emailCur.moveToNext()) {
+            String email = emailCur.getString(
+                    emailCur.getColumnIndex(ContactsContract.CommonDataKinds.Email.DATA));
+
+            results.get(emailId).add(email);
+        }
+        emailCur.close();
     }
 
     @Override
