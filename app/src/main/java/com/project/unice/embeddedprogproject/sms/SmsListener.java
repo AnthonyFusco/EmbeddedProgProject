@@ -51,8 +51,16 @@ public class SmsListener extends BroadcastReceiver {
         Gson gson = new Gson();
         BusinessCard businessCard = gson.fromJson(businessCardSerialized, BusinessCard.class);
         IDatabaseManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
-        manager.add(businessCard);
+
+
+
         String phoneFormatted = ContactManager.formatPhone(businessCard.phone);
+
+        BusinessCard card = (BusinessCard) manager.findFirstValue(BusinessCard.class, "Phone", phoneFormatted);
+        if (card != null) {
+            manager.remove(card);
+        }
+        manager.add(businessCard);
         List<IModel> models = manager.selectWhere(Contact.class, "Phone", phoneFormatted);
         for (IModel model : models) {
             System.out.println("received : " + phoneFormatted);
