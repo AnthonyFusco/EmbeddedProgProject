@@ -15,7 +15,7 @@ import com.project.unice.embeddedprogproject.sqlite.databaseModels.ContactManage
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
-import com.project.unice.embeddedprogproject.sqlite.IModel;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.IModel;
 
 import java.util.List;
 

@@ -11,7 +11,7 @@ import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.ContactManager;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.IContactManager;
-import com.project.unice.embeddedprogproject.sqlite.IModel;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.IModel;
 
 import java.util.ArrayList;
 import java.util.List;

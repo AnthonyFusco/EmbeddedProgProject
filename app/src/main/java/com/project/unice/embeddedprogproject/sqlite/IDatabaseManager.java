@@ -1,6 +1,7 @@
 package com.project.unice.embeddedprogproject.sqlite;
 
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.AbstractModel;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.IModel;
 
 import java.util.List;
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.AbstractModel;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.IModel;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

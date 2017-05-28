@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject.sqlite;
+package com.project.unice.embeddedprogproject.sqlite.databaseModels;
 
 import android.content.ContentValues;
 

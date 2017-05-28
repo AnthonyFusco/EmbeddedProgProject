@@ -1,7 +1,5 @@
 package com.project.unice.embeddedprogproject.sqlite.databaseModels;
 
-import com.project.unice.embeddedprogproject.sqlite.IModel;
-
 import java.util.List;
 
 

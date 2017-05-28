@@ -2,7 +2,6 @@ package com.project.unice.embeddedprogproject.sqlite.databaseModels;
 
 import android.content.ContentValues;
 
-import com.project.unice.embeddedprogproject.sqlite.IModel;
 import com.project.unice.embeddedprogproject.sqlite.ModelAnnotation;
 
 import java.lang.reflect.Field;

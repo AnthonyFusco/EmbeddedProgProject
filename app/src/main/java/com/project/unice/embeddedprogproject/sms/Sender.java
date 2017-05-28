@@ -1,7 +1,7 @@
 package com.project.unice.embeddedprogproject.sms;
 
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
-import com.project.unice.embeddedprogproject.sqlite.IModel;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.IModel;
 
 /**
  * Encapsulation for the action of sending a business card.
