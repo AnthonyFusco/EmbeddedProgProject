@@ -13,13 +13,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:id="@+id/textViewSociety"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:textAlignment="center"
             android:textColor="?attr/actionModeSplitBackground"
             android:textSize="30sp" />
@@ -33,17 +34,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:text="TextView"
+                android:layout_weight="0.5"
                 android:textColor="?attr/actionModeSplitBackground"
-                android:textSize="30sp"
-                android:layout_weight="0.5"/>
+                android:textSize="30sp" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
                 android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:layout_weight="0.5">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:id="@+id/linearLayout"
@@ -60,8 +60,7 @@
                         android:id="@+id/textViewPhone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10px"
-                        android:text="TextView"
+                        android:paddingLeft="10dp"
                         android:textColor="@android:color/background_light"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -80,8 +79,7 @@
                         android:id="@+id/textViewEmail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10px"
-                        android:text="TextView"
+                        android:paddingLeft="10dp"
                         android:textColor="@android:color/background_light"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -100,14 +98,12 @@
                         android:id="@+id/textViewAddressHome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="10px"
-                        android:text="TextView"
+                        android:paddingLeft="10dp"
                         android:textColor="@android:color/background_light"
                         android:textSize="18sp" />
                 </LinearLayout>
 
             </LinearLayout>
-
 
 
         </LinearLayout>

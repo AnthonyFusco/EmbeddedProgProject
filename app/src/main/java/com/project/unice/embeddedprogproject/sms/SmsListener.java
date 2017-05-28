@@ -40,7 +40,9 @@ public class SmsListener extends BroadcastReceiver {
                 }
             }
             String mySmsText = content.toString();
-            handleReceive(context, mySmsText);
+            if (mySmsText.contains(Sender.HEADER)){
+                handleReceive(context, mySmsText);
+            }
         }
 
     }
