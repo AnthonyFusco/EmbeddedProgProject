@@ -1,112 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@mipmap/background"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/textViewSociety"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        android:textColor="?attr/actionModeSplitBackground"
-        android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
-
-    <TextView
-        android:id="@+id/textViewName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="136dp"
-        android:text="TextView"
-        android:textColor="?attr/actionModeSplitBackground"
-        android:textSize="30sp" />
+        android:src="@mipmap/background" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_alignBottom="@+id/textViewName"
-        android:layout_toEndOf="@+id/textViewName"
-        android:layout_marginStart="154dp"
-        android:layout_marginBottom="49dp"
-        android:id="@+id/linearLayout">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/stat_sys_phone_call" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewSociety"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/textViewPhone"
-            android:paddingLeft="10px"
             android:text="TextView"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
+            android:textAlignment="center"
+            android:textColor="?attr/actionModeSplitBackground"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="TextView"
+                android:textColor="?attr/actionModeSplitBackground"
+                android:textSize="30sp"
+                android:layout_weight="0.5"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:layout_weight="0.5">
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/stat_sys_phone_call" />
+
+                    <TextView
+                        android:id="@+id/textViewPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10px"
+                        android:text="TextView"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@android:drawable/sym_action_email" />
+
+                    <TextView
+                        android:id="@+id/textViewEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10px"
+                        android:text="TextView"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="28dp"
+                        android:layout_height="27dp"
+                        android:src="@mipmap/home" />
+
+                    <TextView
+                        android:id="@+id/textViewAddressHome"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10px"
+                        android:text="TextView"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_centerVertical="true"
-        android:layout_alignStart="@+id/linearLayout"
-        android:id="@+id/linearLayout2">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@android:drawable/sym_action_email" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewEmail"
-            android:paddingLeft="10px"
-            android:text="TextView"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@+id/linearLayout2"
-        android:layout_alignStart="@+id/linearLayout2"
-        android:layout_marginTop="30dp">
-
-        <ImageView
-            android:layout_width="28dp"
-            android:layout_height="27dp"
-            android:src="@mipmap/home" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textViewAddressHome"
-            android:paddingLeft="10px"
-            android:text="TextView"
-            android:textColor="@android:color/background_light"
-            android:textSize="18sp" />
-    </LinearLayout>
-
-
-
 
 </RelativeLayout>
