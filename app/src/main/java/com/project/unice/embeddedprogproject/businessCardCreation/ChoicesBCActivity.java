@@ -70,10 +70,12 @@ public class ChoicesBCActivity extends AppCompatActivity {
             map.get(selector.property).add(selector.value);
         }
 
+        MySharedPreferences preferences = new MySharedPreferences(getApplicationContext());
+
         BusinessCard card = new BusinessCard();
+        card.phone = preferences.getPhoneNumber();
         card.contains = new Gson().toJson(map);
 
-        MySharedPreferences preferences = new MySharedPreferences(getApplicationContext());
         preferences.saveBusinessCard(card);
 
         Intent intent = new Intent(ChoicesBCActivity.this, ViewBusinessCardActivity.class);

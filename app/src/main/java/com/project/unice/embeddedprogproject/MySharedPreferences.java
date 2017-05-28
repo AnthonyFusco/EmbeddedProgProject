@@ -88,10 +88,12 @@ public class MySharedPreferences {
 
         DataBaseManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
 
-        if (manager.findFirstValue(BusinessCard.class, "Phone", card.phone) == null) {
+        BusinessCard oldCard = (BusinessCard) manager.findFirstValue(BusinessCard.class, "Phone", card.phone);
+        if (oldCard == null) {
             manager.add(card);
         } else {
-            manager.update(card);
+            manager.remove(oldCard);
+            manager.add(card);
         }
     }
 
