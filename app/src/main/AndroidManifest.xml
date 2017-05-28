@@ -26,13 +26,13 @@
         </activity>
 
         <activity
-            android:name=".ViewBusinessCardActivity"
+            android:name=".businessCardCreation.ViewBusinessCardActivity"
             android:configChanges="orientation"
             android:screenOrientation="landscape">
         </activity>
 
         <activity
-            android:name=".ChoicesBCActivity"
+            android:name=".businessCardCreation.ChoicesBCActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
         </activity>

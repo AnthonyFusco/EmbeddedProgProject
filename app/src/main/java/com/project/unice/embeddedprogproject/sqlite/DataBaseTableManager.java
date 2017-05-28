@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.project.unice.embeddedprogproject.databaseModels.AbstractModel;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.AbstractModel;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

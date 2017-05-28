@@ -3,7 +3,7 @@ package com.project.unice.embeddedprogproject.sms;
 import android.telephony.SmsManager;
 
 import com.google.gson.Gson;
-import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
 
 import java.util.ArrayList;
 

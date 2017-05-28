@@ -16,13 +16,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
-import com.project.unice.embeddedprogproject.fragments.views.MyProfileEditor;
-import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
 import com.project.unice.embeddedprogproject.sms.Sender;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private SmsBroadcastReceiver smsBroadcastReceiver;
     private Toolbar myToolbar;
 
-    private MyProfileEditor myProfileEditor;
+    private AndroidContactActivityHandler contactActivityHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +57,9 @@ public class MainActivity extends AppCompatActivity {
         bc.company = "toto";
         mySharedPreferences.saveBusinessCard(bc);*/
 
-    }
+        contactActivityHandler = new AndroidContactActivityHandler(this);
 
+    }
 
     @Override
     protected void onDestroy() {
@@ -78,9 +77,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(fragmentManager);
 
         ListContacts listContacts = new ListContacts();
-        myProfileEditor = new MyProfileEditor();
         fragmentManager.addFragment(listContacts);
-        fragmentManager.addFragment(myProfileEditor);
         fragmentManager.notifyDataSetChanged();
     }
 
@@ -96,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_send_sms:
                 if (mySharedPreferences.getBusinessCard() == null) {
-                    Toast.makeText(this, "You need to create your Business Card first !", Toast.LENGTH_LONG).show();
+                    showNoNumberWarning();
                 } else {
                     sendCardToNumber();
                 }
@@ -106,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 myToolbar.setTitle(R.string.contact_list);
                 return true;
             case R.id.action_myprofile:
-                change(1);
-                myToolbar.setTitle(R.string.contact_list);
+                contactActivityHandler.checkStateForBusinessCardCreation();
                 return true;
             case R.id.action_settings:
                 mySharedPreferences.askForPhoneNumber();
@@ -116,6 +112,22 @@ public class MainActivity extends AppCompatActivity {
                 myToolbar.setTitle(R.string.BUSINESS_CARD);
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Inform the user that he needs to add a phone number to continue.
+     */
+    private void showNoNumberWarning() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        String textToSend = "Please add your phone number in Settings to create a Business Card";
+        builder.setMessage(textToSend)
+                .setTitle("");
+        builder.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     private void sendCardToNumber() {
@@ -150,7 +162,8 @@ public class MainActivity extends AppCompatActivity {
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            boolean type = intent.getBooleanExtra("sms", false);  //get the type of message from MyGcmListenerService 1 - lock or 0 -Unlock
+            //get the type of message from MyGcmListenerService 1 - lock or 0 -Unlock
+            boolean type = intent.getBooleanExtra("sms", false);
             if (type) {
                 initFragment();
             }
@@ -166,6 +179,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        myProfileEditor.onActivityResult(requestCode, resultCode, data);
+        contactActivityHandler.androidContactActivityResult(requestCode);
     }
 }

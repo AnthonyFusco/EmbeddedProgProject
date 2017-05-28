@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject.pages;
+package com.project.unice.embeddedprogproject.businessCardCreation;
 
 public class ChoiceElement {
     public boolean checked;

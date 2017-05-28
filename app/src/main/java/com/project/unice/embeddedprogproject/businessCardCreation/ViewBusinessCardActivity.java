@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject;
+package com.project.unice.embeddedprogproject.businessCardCreation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,8 +7,9 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
-import com.project.unice.embeddedprogproject.databaseModels.Contact;
+import com.project.unice.embeddedprogproject.R;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
 import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;

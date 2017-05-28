@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject.pages;
+package com.project.unice.embeddedprogproject.businessCardCreation;
 
 import android.graphics.Color;
 import android.view.View;
@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.ViewHolder;
-import com.project.unice.embeddedprogproject.databaseModels.Contact;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
 
 import java.util.List;
 

@@ -11,8 +11,8 @@ import com.project.unice.embeddedprogproject.LayoutListAdapter;
 import com.project.unice.embeddedprogproject.OnClickContactFactory;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
-import com.project.unice.embeddedprogproject.databaseModels.Contact;
-import com.project.unice.embeddedprogproject.pages.ViewHolderContacts;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
+import com.project.unice.embeddedprogproject.businessCardCreation.ViewHolderContacts;
 
 import java.util.List;
 
@@ -25,6 +25,10 @@ public class ViewContacts extends AbstractFragment {
 
     private List<Contact> contacts;
     private ListView listView;
+
+    public ViewContacts() {
+        super();
+    }
 
     public ViewContacts(String title, List<Contact> contacts) {
         super(title, R.layout.fragment_listcontacts);

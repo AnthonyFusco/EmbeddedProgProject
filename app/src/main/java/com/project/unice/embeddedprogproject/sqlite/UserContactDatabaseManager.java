@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject;
+package com.project.unice.embeddedprogproject.sqlite;
 
 import android.app.Activity;
 import android.app.LoaderManager;
@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.provider.ContactsContract;
 
 import com.google.gson.Gson;
+import com.project.unice.embeddedprogproject.businessCardCreation.ChoicesBCActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -135,6 +136,7 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
                         results.get(phoneId).add(data.getString(2));
                         break;
                     case ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE:
+                        //todo not showing
                         results.get(emailId).add(data.getString(2));
                         break;
                     case ContactsContract.CommonDataKinds.Organization.CONTENT_ITEM_TYPE:

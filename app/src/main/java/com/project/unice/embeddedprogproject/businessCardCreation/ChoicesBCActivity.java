@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject;
+package com.project.unice.embeddedprogproject.businessCardCreation;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -7,9 +7,12 @@ import android.widget.ListView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
-import com.project.unice.embeddedprogproject.pages.ChoiceElement;
-import com.project.unice.embeddedprogproject.pages.ViewHolderBCChoice;
+import com.project.unice.embeddedprogproject.LayoutListAdapter;
+import com.project.unice.embeddedprogproject.MySharedPreferences;
+import com.project.unice.embeddedprogproject.R;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.businessCardCreation.ChoiceElement;
+import com.project.unice.embeddedprogproject.businessCardCreation.ViewHolderBCChoice;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -72,5 +75,6 @@ public class ChoicesBCActivity extends AppCompatActivity {
 
         MySharedPreferences preferences = new MySharedPreferences(getApplicationContext());
         preferences.saveBusinessCard(card);
+        finish();
     }
 }

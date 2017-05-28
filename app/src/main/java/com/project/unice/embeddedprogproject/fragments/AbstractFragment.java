@@ -16,6 +16,9 @@ public abstract class AbstractFragment extends Fragment implements IFragment {
     private String title;
     private int layout;
 
+    public AbstractFragment() {
+        super();
+    }
 
     /**
      * Constructor for AbstractFragment.

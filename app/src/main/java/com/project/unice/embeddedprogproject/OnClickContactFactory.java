@@ -9,8 +9,9 @@ import android.widget.AdapterView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
-import com.project.unice.embeddedprogproject.databaseModels.Contact;
+import com.project.unice.embeddedprogproject.businessCardCreation.ViewBusinessCardActivity;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
 import com.project.unice.embeddedprogproject.sms.Sender;
 
 

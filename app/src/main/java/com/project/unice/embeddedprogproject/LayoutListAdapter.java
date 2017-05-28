@@ -5,11 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.project.unice.embeddedprogproject.pages.ChoiceElement;
-
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Personalize adapter of a list.

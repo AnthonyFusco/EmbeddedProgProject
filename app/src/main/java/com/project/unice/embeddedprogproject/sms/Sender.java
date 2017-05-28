@@ -1,6 +1,6 @@
 package com.project.unice.embeddedprogproject.sms;
 
-import com.project.unice.embeddedprogproject.databaseModels.BusinessCard;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 /**

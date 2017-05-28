@@ -1,4 +1,4 @@
-package com.project.unice.embeddedprogproject.databaseModels;
+package com.project.unice.embeddedprogproject.sqlite.databaseModels;
 
 import com.project.unice.embeddedprogproject.sqlite.ModelAnnotation;
 import com.project.unice.embeddedprogproject.sqlite.SqliteTypes;

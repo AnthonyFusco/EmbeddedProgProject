@@ -1,17 +1,14 @@
-package com.project.unice.embeddedprogproject.pages;
+package com.project.unice.embeddedprogproject.businessCardCreation;
 
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.ViewHolder;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class ViewHolderBCChoice implements ViewHolder {
 

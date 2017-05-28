@@ -8,9 +8,9 @@ import android.view.ViewGroup;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.fragments.AbstractFragment;
 import com.project.unice.embeddedprogproject.fragments.FragmentManager;
-import com.project.unice.embeddedprogproject.databaseModels.Contact;
-import com.project.unice.embeddedprogproject.databaseModels.ContactManager;
-import com.project.unice.embeddedprogproject.databaseModels.IContactManager;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.ContactManager;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.IContactManager;
 import com.project.unice.embeddedprogproject.sqlite.IModel;
 
 import java.util.ArrayList;
