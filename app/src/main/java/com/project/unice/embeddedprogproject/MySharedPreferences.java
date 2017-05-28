@@ -10,6 +10,7 @@ import android.widget.EditText;
 import com.google.gson.Gson;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
+import com.project.unice.embeddedprogproject.sqlite.IDatabaseManager;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.ContactManager;
@@ -86,7 +87,7 @@ public class MySharedPreferences {
         editor.putString(USER_BUSINESS_CARD, gson.toJson(card));
         editor.apply();
 
-        DataBaseManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
+        IDatabaseManager manager = new DataBaseTableManager(context, DataBaseManager.DATABASE_NAME);
 
         BusinessCard oldCard = (BusinessCard) manager.findFirstValue(BusinessCard.class, "Phone", card.phone);
         if (oldCard == null) {
