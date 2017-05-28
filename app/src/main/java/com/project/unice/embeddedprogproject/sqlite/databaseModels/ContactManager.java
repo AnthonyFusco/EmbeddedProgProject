@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 import android.telephony.PhoneNumberUtils;
+import android.util.Log;
 
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
 import com.project.unice.embeddedprogproject.sqlite.DataBaseTableManager;
@@ -99,6 +100,9 @@ public class ContactManager implements IContactManager {
                         }
                     }
                 }
+
+            }catch (Exception e) {
+                Log.d("ContactManager", "checkAndroidContactList: " + e);
             } finally {
                 cursor.close();
             }
@@ -108,7 +112,12 @@ public class ContactManager implements IContactManager {
     public static String formatPhone(String phone) {
         String formatted = "";
         if (!phone.isEmpty()) {
-            formatted = PhoneNumberUtils.formatNumber(phone, Locale.getDefault().getCountry()).replaceAll("\\+[0-9]+\\s", "0").replaceAll("^00 33 ", "0");
+            formatted = PhoneNumberUtils.formatNumber(phone, Locale.getDefault().getCountry());
+            if (formatted != null && formatted.length() > 0) {
+                formatted = formatted.replaceAll("\\+[0-9]+\\s", "0").replaceAll("^00 33 ", "0");
+            } else {
+                formatted = phone;
+            }
         }
         return formatted;
     }

@@ -26,28 +26,17 @@ public class SmsListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        /*if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION.equals(intent.getAction())) {
-            for (SmsMessage smsMessage : Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
-                String messageBody = smsMessage.getMessageBody();
-                if (messageBody.contains(Sender.HEADER)) {
-                    Log.e("log>>>", "received business card");
-                    //int id = smsMessage.getIndexOnIcc();
-                    handleReceive(context, messageBody);
-                }
-            }
-        }*/
-
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             Object[] pdus = (Object[])bundle.get("pdus");
-            final SmsMessage[] messages = new SmsMessage[pdus.length];
-            for (int i = 0; i < pdus.length; i++) {
+            final SmsMessage[] messages = new SmsMessage[pdus != null ? pdus.length : 0];
+            for (int i = 0; i < (pdus != null ? pdus.length : 0); i++) {
                 messages[i] = SmsMessage.createFromPdu((byte[])pdus[i]);
             }
-            StringBuffer content = new StringBuffer();
+            StringBuilder content = new StringBuilder();
             if (messages.length > 0) {
-                for (int i = 0; i < messages.length; i++) {
-                    content.append(messages[i].getMessageBody());
+                for (SmsMessage message : messages) {
+                    content.append(message.getMessageBody());
                 }
             }
             String mySmsText = content.toString();

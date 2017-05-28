@@ -16,9 +16,9 @@ import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
  * db.execSQL(AbstractModel.createTableRequest(NouvelleClasse.class));
  * db.execSQL(AbstractModel.dropTableRequest(NouvelleClasse.class));
  */
-public class DataBaseHandler extends SQLiteOpenHelper {
+public class DataBaseCreator extends SQLiteOpenHelper {
 
-    public DataBaseHandler(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DataBaseCreator(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 

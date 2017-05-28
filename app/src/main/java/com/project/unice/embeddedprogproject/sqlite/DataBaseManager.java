@@ -10,12 +10,12 @@ public abstract class DataBaseManager implements IDatabaseManager {
     private final static int VERSION = 1;
     public static final String DATABASE_NAME = "database.db";
     private SQLiteDatabase database = null;
-    private DataBaseHandler handler = null;
+    private DataBaseCreator handler = null;
     private Context context;
 
     public DataBaseManager(Context pContext, String nomBase) {
         this.context = pContext;
-        this.handler = new DataBaseHandler(pContext, nomBase, null, VERSION);
+        this.handler = new DataBaseCreator(pContext, nomBase, null, VERSION);
     }
 
     public SQLiteDatabase getDatabase() {
