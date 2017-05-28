@@ -60,12 +60,14 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         TextView email = (TextView) findViewById(R.id.textViewEmail);
         TextView address = (TextView) findViewById(R.id.textViewAddressHome);
         TextView society = (TextView) findViewById(R.id.textViewSociety);
+        TextView website = (TextView) findViewById(R.id.textViewWebsite);
 
         String org = formatedStringValues(map.get(organizationId));
         String na = formatedStringValues(map.get(structuredNameId));
-        String post =formatedStringValues(map.get(structuredPostalId));
+        String post = formatedStringValues(map.get(structuredPostalId));
         String mail = formatedStringValues(map.get(emailId));
         String pho = formatedStringValues(map.get(phoneId));
+        String web = formatedStringValues(map.get(websiteId));
 
 
         name.setText(na);
@@ -73,6 +75,7 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         email.setText(mail);
         address.setText(post);
         society.setText(org);
+        website.setText(web);
     }
 
     private String formatedStringValues(List<String> list){
