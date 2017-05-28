@@ -55,12 +55,14 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         String structuredPostalId = "StructuredPostal";
 
 
-        TextView society = (TextView) findViewById(R.id.textViewSociety);
-        TextView name = (TextView) findViewById(R.id.textViewName);
-        TextView address = (TextView) findViewById(R.id.textViewAddressSociety);
-        TextView email = (TextView) findViewById(R.id.textViewEmail);
-        TextView phone = (TextView) findViewById(R.id.textViewPhone);
 
+        TextView name = (TextView) findViewById(R.id.textViewName);
+        TextView phone = (TextView) findViewById(R.id.textViewPhone);
+        TextView email = (TextView) findViewById(R.id.textViewEmail);
+        /*TextView address = (TextView) findViewById(R.id.textViewAddressSociety);
+
+
+        TextView society = (TextView) findViewById(R.id.textViewSociety);*/
 
         String org = formatedStringValues(map.get(organizationId));
         String na = formatedStringValues(map.get(structuredNameId));
@@ -68,11 +70,14 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         String mail = formatedStringValues(map.get(emailId));
         String pho = formatedStringValues(map.get(phoneId));
 
-        society.setText(org);
+
         name.setText(na);
-        address.setText(post);
-        email.setText(mail);
         phone.setText(pho);
+        email.setText(mail);
+        /*address.setText(post);
+
+
+        society.setText(org);*/
     }
 
     private String formatedStringValues(List<String> list){
