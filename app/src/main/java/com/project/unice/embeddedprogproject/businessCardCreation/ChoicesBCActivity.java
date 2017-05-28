@@ -1,5 +1,6 @@
 package com.project.unice.embeddedprogproject.businessCardCreation;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -9,10 +10,12 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.project.unice.embeddedprogproject.LayoutListAdapter;
 import com.project.unice.embeddedprogproject.MySharedPreferences;
+import com.project.unice.embeddedprogproject.OnClickContactFactory;
 import com.project.unice.embeddedprogproject.R;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
 import com.project.unice.embeddedprogproject.businessCardCreation.ChoiceElement;
 import com.project.unice.embeddedprogproject.businessCardCreation.ViewHolderBCChoice;
+import com.project.unice.embeddedprogproject.sqlite.databaseModels.Contact;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -22,8 +25,6 @@ import java.util.Map;
 
 public class ChoicesBCActivity extends AppCompatActivity {
 
-    private Map<String, List<String>> choices;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +32,9 @@ public class ChoicesBCActivity extends AppCompatActivity {
 
         String extra = getIntent().getStringExtra("Serial");
         Type type = new TypeToken<Map<String, List<String>>>(){}.getType();
-        choices = new Gson().fromJson(extra, type);
+        Map<String, List<String>> choices = new Gson().fromJson(extra, type);
 
         ListView listView = (ListView)findViewById(R.id.listViewChoices);
-
 
         LayoutListAdapter<ChoiceElement> adapter = new LayoutListAdapter<>();
         List<ChoiceElement> lst = new ArrayList<>();
@@ -75,6 +75,15 @@ public class ChoicesBCActivity extends AppCompatActivity {
 
         MySharedPreferences preferences = new MySharedPreferences(getApplicationContext());
         preferences.saveBusinessCard(card);
+
+        Intent intent = new Intent(ChoicesBCActivity.this, ViewBusinessCardActivity.class);
+        Gson gson = new Gson();
+        Contact contact = new Contact();
+        contact.phone = preferences.getPhoneNumber();
+        String contactSerialized = gson.toJson(contact);
+        intent.putExtra(ViewBusinessCardActivity.CONTACT_INTENT_CODE, contactSerialized);
+
+        startActivity(intent);
         finish();
     }
 }
