@@ -48,14 +48,12 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         Type type = new TypeToken<Map<String, List<String>>>(){}.getType();
         Map<String, List<String>> map = new Gson().fromJson(card.contains, type);
 
-        String phoneId = "Phone";
+        String phoneId = "Phone Number";
         String emailId = "Email";
         String organizationId = "Organization";
         String websiteId = "Website";
-        String structuredNameId = "StructuredName";
-        String structuredPostalId = "StructuredPostal";
-
-
+        String structuredNameId = "Name";
+        String structuredPostalId = "Address";
 
         TextView name = (TextView) findViewById(R.id.textViewName);
         TextView phone = (TextView) findViewById(R.id.textViewPhone);
