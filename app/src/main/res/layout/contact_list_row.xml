@@ -10,12 +10,16 @@
         android:id="@+id/textnamecontact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/phonecontact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textStyle="italic"
+        android:paddingLeft="30dp"/>
 
 </LinearLayout>
