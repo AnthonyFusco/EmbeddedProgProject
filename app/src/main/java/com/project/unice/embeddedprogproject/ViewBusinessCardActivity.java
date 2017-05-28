@@ -59,10 +59,8 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         TextView name = (TextView) findViewById(R.id.textViewName);
         TextView phone = (TextView) findViewById(R.id.textViewPhone);
         TextView email = (TextView) findViewById(R.id.textViewEmail);
-        /*TextView address = (TextView) findViewById(R.id.textViewAddressSociety);
-
-
-        TextView society = (TextView) findViewById(R.id.textViewSociety);*/
+        TextView address = (TextView) findViewById(R.id.textViewAddressHome);
+        TextView society = (TextView) findViewById(R.id.textViewSociety);
 
         String org = formatedStringValues(map.get(organizationId));
         String na = formatedStringValues(map.get(structuredNameId));
@@ -74,10 +72,8 @@ public class ViewBusinessCardActivity extends AppCompatActivity {
         name.setText(na);
         phone.setText(pho);
         email.setText(mail);
-        /*address.setText(post);
-
-
-        society.setText(org);*/
+        address.setText(post);
+        society.setText(org);
     }
 
     private String formatedStringValues(List<String> list){
