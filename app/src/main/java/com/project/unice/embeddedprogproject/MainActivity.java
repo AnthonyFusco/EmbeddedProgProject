@@ -54,16 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         mySharedPreferences.askForPhoneNumberIfNotSaved();
 
-        /*BusinessCard bc = new BusinessCard();
-        bc.phone = "4444";
-        bc.name = "aaaa";
-        bc.company = "toto";
-        mySharedPreferences.saveBusinessCard(bc);*/
-
         contactActivityHandler = new AndroidContactActivityHandler(this);
-       /* SmsManager smsManager = SmsManager.getDefault();
-        ArrayList<String> parts = smsManager.divideMessage("aaaaaaaaaaaaaaaaa\"aaaaa\"aaaaaaaaaa");
-        smsManager.sendMultipartTextMessage("5554", null, parts, null, null);*/
     }
 
     @Override
