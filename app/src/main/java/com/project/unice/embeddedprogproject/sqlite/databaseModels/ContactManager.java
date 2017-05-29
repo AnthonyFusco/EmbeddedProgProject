@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 /**
@@ -43,10 +44,10 @@ public class ContactManager implements IContactManager {
         Collections.sort(contacts, new Comparator<IModel>() {
             @Override
             public int compare(IModel lhs, IModel rhs) {
-                if (((Contact)lhs).name == null || ((Contact)rhs).name == null) {
+                if (((Contact) lhs).name == null || ((Contact) rhs).name == null) {
                     return 0;
                 }
-                return ((Contact)lhs).name.compareTo(((Contact)rhs).name);
+                return ((Contact) lhs).name.compareTo(((Contact) rhs).name);
             }
         });
         return new ArrayList<>(contacts);
@@ -80,7 +81,7 @@ public class ContactManager implements IContactManager {
                         Contact newContact = new Contact();
                         newContact.phone = formatPhone(phone);
                         newContact.setIdContactAndroid(cursor.getLong(idIndex));
-                        if (!contactsRecorded.contains(newContact)){
+                        if (!contactsRecorded.contains(newContact)) {
                             //le contact n'est pas dans la bdd sqlite donc on l'ajoute
                             newContact.idBusinessCard = -1;
                             String nameSave = newContact.name;
@@ -89,8 +90,7 @@ public class ContactManager implements IContactManager {
                             newContact.name = nameSave;
                             contactsRecorded.add(newContact);
                             System.out.println("AJOUT DE ==> " + newContact);
-                        }
-                        else {
+                        } else {
                             newContact = (Contact) contactsRecorded.get(contactsRecorded.indexOf(newContact));
                         }
                         newContact.name = cursor.getString(displayNameIndex);
@@ -100,7 +100,7 @@ public class ContactManager implements IContactManager {
                     }
                 }
 
-            }catch (Exception e) {
+            } catch (Exception e) {
                 Log.d("ContactManager", "checkAndroidContactList: " + e);
             } finally {
                 cursor.close();
@@ -109,13 +109,15 @@ public class ContactManager implements IContactManager {
     }
 
     public static String formatPhone(String phone) {
-        String formatted = "";
+        String formatted = phone;
         if (!phone.isEmpty()) {
-            formatted = PhoneNumberUtils.formatNumber(phone, Locale.getDefault().getCountry());
-            if (formatted != null && formatted.length() > 0) {
-                formatted = formatted.replaceAll("\\+[0-9]+\\s", "0").replaceAll("^00 33 ", "0");
-            } else {
-                formatted = phone;
+            if (Objects.equals(Locale.getDefault().getCountry(), "FR")) {
+                formatted = PhoneNumberUtils.formatNumber(phone, Locale.getDefault().getCountry());
+                if (formatted != null && formatted.length() > 0) {
+                    formatted = formatted.replaceAll("\\+[0-9]+\\s", "0").replaceAll("^00 33 ", "0");
+                } else {
+                    formatted = phone;
+                }
             }
         }
         return formatted;

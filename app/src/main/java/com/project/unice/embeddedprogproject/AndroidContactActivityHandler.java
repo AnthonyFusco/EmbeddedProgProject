@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.ContactsContract;
+import android.support.v4.content.LocalBroadcastManager;
 import android.widget.Toast;
 
 import com.project.unice.embeddedprogproject.sqlite.DataBaseManager;
@@ -68,6 +69,14 @@ public class AndroidContactActivityHandler {
                     String.format("You need an existing contact with the number %s" +
                             " to create a Business Card", mySharedPreferences.getPhoneNumber()),
                     Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Intent.ACTION_INSERT);
+            intent.setType(ContactsContract.Contacts.CONTENT_TYPE);
+
+            intent.putExtra(ContactsContract.Intents.Insert.PHONE, mySharedPreferences.getPhoneNumber());
+
+            intent.putExtra("finishActivityOnSaveCompleted", true);
+            activity.startActivityForResult(intent, 43);
+
         }
     }
 
@@ -80,6 +89,13 @@ public class AndroidContactActivityHandler {
             UserContactDatabaseManager userContactDatabaseManager =
                     new UserContactDatabaseManager(activity, userId);
             userContactDatabaseManager.startQuery(UserContactDatabaseManager.DATA_QUERY_ID);
+        }
+
+        if (requestCode == 43) {
+            Intent in = new Intent();
+            in.putExtra("sms", true);
+            in.setAction("NOW");
+            LocalBroadcastManager.getInstance(activity).sendBroadcast(in);
         }
     }
 }

@@ -157,6 +157,9 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
             }
 
             getEmail(emailId, results);
+            if (results.get(structuredNameId).isEmpty()) {
+                getName(structuredNameId, results);
+            }
 
             block = true;
 
@@ -188,6 +191,28 @@ public class UserContactDatabaseManager implements LoaderManager.LoaderCallbacks
             results.get(emailId).add(email);
         }
         emailCur.close();
+    }
+
+    /**
+     * Query the email database and add them to the map.<br />
+     * Strangely if there was only one email in the contact, the previous query would not see it.
+     * @param nameId the key of the map
+     * @param results the map itself
+     */
+    private void getName(String nameId, Map<String, List<String>> results) {
+        Cursor nameCur = activity.getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                null,
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                new String[]{String.valueOf(myId)}, null);
+        assert nameCur != null;
+        while (nameCur.moveToNext()) {
+            String name = nameCur.getString(
+                    nameCur.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+
+            results.get(nameId).add(name);
+        }
+        nameCur.close();
     }
 
     @Override

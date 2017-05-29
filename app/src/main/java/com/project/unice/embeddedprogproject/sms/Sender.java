@@ -8,6 +8,7 @@ import com.project.unice.embeddedprogproject.sqlite.databaseModels.IModel;
  */
 public class Sender implements ISender{
     public static final String HEADER = "{BUSINESS_CARD}";
+    public static final String HEADER_EMULATOR = "<BUSINESS_CARD>";
     private static final Sender ourInstance = new Sender();
     private final HandleSend handleSend = new HandleSend();
 

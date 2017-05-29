@@ -40,11 +40,16 @@ public class SmsListener extends BroadcastReceiver {
                 }
             }
             String mySmsText = content.toString();
-            if (mySmsText.contains(Sender.HEADER)){
-                handleReceive(context, mySmsText);
+            if (mySmsText.contains(Sender.HEADER_EMULATOR)){
+                String format = formatReceiveEmulator(mySmsText);
+                handleReceive(context, format);
             }
         }
+    }
 
+    private String formatReceiveEmulator(String sms) {
+        return sms.replaceAll("<", "{").replaceAll(">", "}")
+                .replaceAll("\\(", "[").replaceAll("\\)", "]").replaceAll("/", "\\\\");
     }
 
     private void handleReceive(Context context, String body) {

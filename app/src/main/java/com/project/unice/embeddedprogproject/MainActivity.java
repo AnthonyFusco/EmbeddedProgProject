@@ -11,6 +11,7 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.telephony.SmsManager;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,6 +22,8 @@ import com.project.unice.embeddedprogproject.fragments.FragmentManager;
 import com.project.unice.embeddedprogproject.fragments.views.ListContacts;
 import com.project.unice.embeddedprogproject.sms.Sender;
 import com.project.unice.embeddedprogproject.sqlite.databaseModels.BusinessCard;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -58,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
         mySharedPreferences.saveBusinessCard(bc);*/
 
         contactActivityHandler = new AndroidContactActivityHandler(this);
-
+       /* SmsManager smsManager = SmsManager.getDefault();
+        ArrayList<String> parts = smsManager.divideMessage("aaaaaaaaaaaaaaaaa\"aaaaa\"aaaaaaaaaa");
+        smsManager.sendMultipartTextMessage("5554", null, parts, null, null);*/
     }
 
     @Override
