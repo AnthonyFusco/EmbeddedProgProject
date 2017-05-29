@@ -96,6 +96,10 @@ public class AndroidContactActivityHandler {
             in.putExtra("sms", true);
             in.setAction("NOW");
             LocalBroadcastManager.getInstance(activity).sendBroadcast(in);
+
+            Toast.makeText(activity,
+                    "You can now create your business card",
+                    Toast.LENGTH_LONG).show();
         }
     }
 }
